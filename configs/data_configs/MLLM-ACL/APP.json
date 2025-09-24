@@ -1,0 +1,6 @@
+{
+  "train_path": "/mnt/ShareDB_6TB/datasets/MLLM_CL/datasets/MLLM-CL/APP/train.json",
+  "test_path": "/mnt/ShareDB_6TB/datasets/MLLM_CL/datasets/MLLM-CL/APP_test/test.json",
+  "train_folder": "/mnt/ShareDB_6TB/datasets/MLLM_CL/datasets/MLLM-CL/APP",
+  "test_folder": "/mnt/ShareDB_6TB/datasets/MLLM_CL/datasets/MLLM-CL/APP_test"
+}

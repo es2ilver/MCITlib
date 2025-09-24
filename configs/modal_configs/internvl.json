@@ -1,0 +1,6 @@
+{
+  "model_name": "/mnt/haiyangguo/mywork/CL-MLLM/pre_trained/Internvl-chat-7b",
+  "mm_projector": "/mnt/haiyangguo/mywork/CL-MLLM/pre_trained/Internvl-chat-7b/mm_projector.bin",
+  "vision_tower": "/mnt/ShareDB_6TB/models/InternViT-6B-224px",
+  "clip_tower": "/mnt/ShareDB_6TB/models/clip-vit-large-patch14-336"
+}
