@@ -967,10 +967,6 @@ def train(attn_implementation=None):
                 if hasattr(module, 'weight'):
                     if training_args.bf16 and module.weight.dtype == torch.float32:
                         module = module.to(torch.bfloat16)
-    
-    if model_args.previous_task_model_path is not None:
-        # load model from previous task
-        load_model_from_previous_task(model, model_args.previous_task_model_path)
 
     data_module = make_supervised_data_module(tokenizer=tokenizer,
                                               data_args=data_args)
@@ -981,6 +977,21 @@ def train(attn_implementation=None):
 
     trainable_param_names = [n for n,p in model.named_parameters() if p.requires_grad]
     print("Trainable parameters:\n{}".format(trainable_param_names))
+
+    # if training_args.lora_enable:
+    #     state_dict = get_peft_state_maybe_zero_3(
+    #         model.named_parameters(), training_args.lora_bias
+    #     )
+    #     non_lora_state_dict = get_peft_state_non_lora_maybe_zero_3(
+    #         model.named_parameters()
+    #     )
+    #     if training_args.local_rank == 0 or training_args.local_rank == -1:
+    #         model.config.save_pretrained(training_args.output_dir)
+    #         model.save_pretrained(training_args.output_dir, state_dict=state_dict)
+    #         torch.save(non_lora_state_dict, os.path.join(training_args.output_dir, 'non_lora_trainables.bin'))
+    # else:
+    #     safe_save_model_for_hf_trainer(trainer=trainer,
+    #                                    output_dir=training_args.output_dir)
 
     if list(pathlib.Path(training_args.output_dir).glob("checkpoint-*")):
         trainer.train(resume_from_checkpoint=True)

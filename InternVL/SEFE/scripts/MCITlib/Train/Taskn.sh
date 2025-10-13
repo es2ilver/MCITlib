@@ -21,6 +21,7 @@ BASE_MODEL=$(read_config "$TRAIN_CONFIG" base_model)
 GPU_NUM=$(read_config "$TRAIN_CONFIG" gpu_num)
 RANK=$(read_config "$TRAIN_CONFIG" rank)
 MODEL_NAME=$(read_config "$MODEL_CONFIG" model_name)
+MM_PROJECTOR=$(read_config "$TRAIN_CONFIG" mm_projector)
 PREVIOUS=$(read_config "$TRAIN_CONFIG" previous_model)
 DATA_PATH=$(read_config "$DATA_CONFIG" train_path)
 IMAGE=$(read_config "$DATA_CONFIG" train_folder)
@@ -48,6 +49,7 @@ torchrun --nnodes=${NNODES} --nproc_per_node=${GPU_NUM} --master_port 9001 llava
     --lora_enable True --lora_r $RANK --lora_alpha $((RANK * 2)) \
     --regularization_info_path $REG_PATH \
     --model_name_or_path $PREVIOUS \
+    --pretrain_mm_mlp_adapter $MM_PROJECTOR \
     --version $PROMPT_VERSION \
     --data_path $DATA_PATH \
     --image_folder $IMAGE \

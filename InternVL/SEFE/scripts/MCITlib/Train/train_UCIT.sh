@@ -43,3 +43,6 @@ bash scripts/MCITlib/Train/Taskn.sh \
     $HARD_PATH/configs/data_configs/UCIT/Flickr30k.json \
     $HARD_PATH/configs/train_configs/SEFE/InternVL/UCIT/train/task6.json
 bash scripts/MCITlib/Eval_UCIT/Eval_finetune1.sh 6
+bash scripts/MCITlib/Eval_UCIT/Eval_finetune1.sh 3
+bash scripts/MCITlib/Eval_UCIT/Eval_finetune1.sh 4
+bash scripts/MCITlib/Eval_UCIT/Eval_finetune1.sh 5

@@ -18,6 +18,7 @@ import os
 import copy
 from dataclasses import dataclass, field
 import json, deepspeed
+deepspeed.ops.op_builder.CPUAdamBuilder().load()
 import logging
 import pathlib, random
 from typing import Dict, Optional, Sequence, List
@@ -1033,6 +1034,9 @@ def train():
                     tokenizer=tokenizer,
                     args=training_args,
                     **data_module)
+
+    trainable_param_names = [n for n,p in model.named_parameters() if p.requires_grad]
+    print("Trainable parameters:\n{}".format(trainable_param_names))
 
     trainer.train()
     trainer.save_state()

@@ -5,6 +5,7 @@
   "gpu_num": 4,
   "rank": 32,
   "previous_model": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoint/MLLM-ACL/InternVL/SEFE/Task2_internvl_lora_merged",
+  "mm_projector": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoint/MLLM-ACL/InternVL/SEFE/Task2_internvl_lora/non_lora_trainables.bin",
   "output_dir": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoint/MLLM-ACL/InternVL/SEFE/Task3_internvl_lora",
   "epoch": 1,
   "batch_size": 4,

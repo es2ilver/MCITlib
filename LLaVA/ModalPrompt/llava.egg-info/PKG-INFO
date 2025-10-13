@@ -27,10 +27,13 @@ Requires-Dist: requests
 Requires-Dist: httpx==0.24.0
 Requires-Dist: uvicorn
 Requires-Dist: fastapi
+Requires-Dist: validators
+Requires-Dist: openpyxl
+Requires-Dist: xlsxwriter
 Requires-Dist: einops==0.6.1
 Requires-Dist: einops-exts==0.0.4
 Requires-Dist: timm==0.6.13
 Provides-Extra: train
-Requires-Dist: deepspeed==0.9.5; extra == "train"
+Requires-Dist: deepspeed==0.11.0; extra == "train"
 Requires-Dist: ninja; extra == "train"
 Requires-Dist: wandb; extra == "train"

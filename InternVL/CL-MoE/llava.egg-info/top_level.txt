@@ -1,4 +1,3 @@
 CLMoE
-configs
 llava
 results

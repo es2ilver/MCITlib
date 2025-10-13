@@ -30,6 +30,7 @@ Requires-Dist: uvicorn
 Requires-Dist: fastapi
 Requires-Dist: validators
 Requires-Dist: openpyxl
+Requires-Dist: xlsxwriter
 Requires-Dist: einops==0.6.1
 Requires-Dist: einops-exts==0.0.4
 Requires-Dist: timm==0.6.13

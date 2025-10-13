@@ -33,14 +33,17 @@ for model_path in model_path_list:
     # lora_params = {k: v.cuda() for k, v in lora_params.items()}
 
     ori_param_set = set()
-    for k in lora_params.keys():
-        ori_param = k.replace(".lora_A", "").replace(".lora_B", "")
+    for k in lora_params.keys(): # k: base_model.model.model.layers.31.mlp.down_proj.lora_B.weight
+        ori_param = k.replace(".lora_A", "").replace(".lora_B", "") # ori_param: base_model.model.model.layers.31.mlp.down_proj.weight
         ori_param_set.add(ori_param)
     lora_pairs = {k: [] for k in ori_param_set}
     for k in lora_params.keys():
-        lora_pairs[k.replace(".lora_A", "").replace(".lora_B", "")].append(k)
+        lora_pairs[k.replace(".lora_A", "").replace(".lora_B", "")].append(k) 
         if len(lora_pairs[k.replace(".lora_A", "").replace(".lora_B", "")]) == 2:
             lora_pairs[k.replace(".lora_A", "").replace(".lora_B", "")].sort()
+        # lora_pairs: base_model.model.model.layers.3.self_attn.v_proj.weight': 
+        #  ['base_model.model.model.layers.3.self_attn.v_proj.lora_A.weight', 
+        #  'base_model.model.model.layers.3.self_attn.v_proj.lora_B.weight']
 
     stats = {}
     lora_pairs = dict(sorted(lora_pairs.items()))

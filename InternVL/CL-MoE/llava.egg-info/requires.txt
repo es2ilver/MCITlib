@@ -19,6 +19,7 @@ uvicorn
 fastapi
 validators
 openpyxl
+xlsxwriter
 deepspeed==0.13.5
 einops
 einops-exts

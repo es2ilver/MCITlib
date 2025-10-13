@@ -968,9 +968,9 @@ class LlamaModel(LlamaPreTrainedModel):
             regularization_info = torch.load(regularization_info_path)
             regularization_info = {k: v['top2'] for k, v in regularization_info.items()}
             regularization_info_in_layers = {}
-            for param_name in regularization_info:
+            for param_name in regularization_info:  # base_model.model.model.layers.16.self_attn.k_proj.weight
                 layer_i = int(param_name.split(".")[4])
-                new_param_name = ".".join(param_name.split(".")[5:-1])
+                new_param_name = ".".join(param_name.split(".")[5:-1])  # self_attn.k_proj
                 if layer_i in regularization_info_in_layers:
                     regularization_info_in_layers[layer_i][new_param_name] = regularization_info[param_name]
                 else:

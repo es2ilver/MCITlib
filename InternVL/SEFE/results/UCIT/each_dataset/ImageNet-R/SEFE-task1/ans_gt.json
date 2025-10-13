@@ -5880,7 +5880,7 @@
         "ground_truth": "Tabby"
     },
     {
-        "pred": "Centipede",
+        "pred": "Scorpion",
         "ground_truth": "Centipede"
     },
     {
@@ -8956,7 +8956,7 @@
         "ground_truth": "Tabby"
     },
     {
-        "pred": "Pepper",
+        "pred": "Flamingo",
         "ground_truth": "Ladybug"
     },
     {
@@ -9244,7 +9244,7 @@
         "ground_truth": "Ice bear"
     },
     {
-        "pred": "Missile",
+        "pred": "Cannon",
         "ground_truth": "Lipstick"
     },
     {
@@ -9892,7 +9892,7 @@
         "ground_truth": "Drake"
     },
     {
-        "pred": "Hog",
+        "pred": "Pig",
         "ground_truth": "Basketball"
     },
     {
@@ -10840,7 +10840,7 @@
         "ground_truth": "Beacon"
     },
     {
-        "pred": "Candle",
+        "pred": "Beaver",
         "ground_truth": "Candle"
     },
     {

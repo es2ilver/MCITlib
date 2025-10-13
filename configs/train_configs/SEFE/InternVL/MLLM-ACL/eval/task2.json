@@ -2,5 +2,5 @@
   "gpu_num": 4,
   "stage": "SEFE-task2",
   "model_path": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoint/MLLM-ACL/InternVL/SEFE/Task2_internvl_lora_merged",
-  "result_path": "./results/UCIT/each_dataset"
+  "result_path": "./results/ACL/each_dataset"
 }

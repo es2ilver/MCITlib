@@ -25,10 +25,26 @@ class ModalPrompt(LlavaLlamaForCausalLM):
         set prompt ids: [[32000,...,32009],[32010,...32019],...]
         '''
         proto_ids_list = []
-        for i in range(self.num_tasks):
-            proto_ids_list.append(self.tokenizer(''.join(self.prefix_tokens_list[self.mapping_list[str(i+1)]]),return_tensors='pt').input_ids.squeeze()[1:].to(self.device))
         
-        self.proto_ids_list = torch.stack(proto_ids_list,dim=0)
+        for i in range(self.num_tasks):
+            # 生成 proto_ids
+            proto_ids = self.tokenizer(
+                ''.join(self.prefix_tokens_list[self.mapping_list[str(i+1)]]), 
+                return_tensors='pt'
+            ).input_ids.squeeze()[1:].to(self.device)
+            
+            # 打印当前任务的 proto_ids 形状和内容
+            print(f"Task {i+1}: proto_ids shape = {proto_ids.shape}, proto_ids = {proto_ids.tolist()}")
+            
+            proto_ids_list.append(proto_ids)
+        
+        # 打印完整的 proto_ids_list 的信息
+        print(f"Total proto_ids_list length: {len(proto_ids_list)}")
+        for idx, tensor in enumerate(proto_ids_list):
+            print(f"proto_ids_list[{idx}]: shape = {tensor.shape}")
+
+        # 堆叠张量
+        self.proto_ids_list = torch.stack(proto_ids_list, dim=0)
 
     def get_proto_input_ids(self, cur_task=1, device = None):
         assert cur_task>=1, 'do not need to get proto inputs'

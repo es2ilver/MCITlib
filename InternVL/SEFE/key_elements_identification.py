@@ -34,7 +34,7 @@ for model_path in model_path_list:
 
     ori_param_set = set()
     for k in lora_params.keys():
-        ori_param = k.replace(".lora_A", "").replace(".lora_B", "")
+        ori_param = k.replace(".lora_A", "").replace(".lora_B", "")  # base_model.model.model.layers.30.mlp.down_proj.lora_B.default.loraB.1.weight
         ori_param_set.add(ori_param)
     lora_pairs = {k: [] for k in ori_param_set}
     for k in lora_params.keys():

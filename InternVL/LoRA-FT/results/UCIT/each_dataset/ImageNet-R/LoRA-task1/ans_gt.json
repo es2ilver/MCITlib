@@ -5748,7 +5748,7 @@
         "ground_truth": "Head cabbage"
     },
     {
-        "pred": "Pomegranate",
+        "pred": "Granny smith",
         "ground_truth": "Lemon"
     },
     {
@@ -5880,7 +5880,7 @@
         "ground_truth": "Tabby"
     },
     {
-        "pred": "Centipede",
+        "pred": "Scorpion",
         "ground_truth": "Centipede"
     },
     {

@@ -1,6 +1,6 @@
 [
     {
-        "pred": "D",
+        "pred": "C",
         "ground_truth": "D"
     },
     {
@@ -112,7 +112,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "C",
+        "pred": "B",
         "ground_truth": "C"
     },
     {
@@ -128,7 +128,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "A) GCE",
+        "pred": "A",
         "ground_truth": "A"
     },
     {
@@ -160,7 +160,7 @@
         "ground_truth": "B. A planetary nebula"
     },
     {
-        "pred": "C",
+        "pred": "C) Pole Position",
         "ground_truth": "C"
     },
     {
@@ -280,7 +280,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "D",
+        "pred": "D) Linear transformation",
         "ground_truth": "D"
     },
     {
@@ -400,7 +400,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "B) \\( |H| \\)",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -408,7 +408,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "C) 3D",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -424,7 +424,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "A",
+        "pred": "B",
         "ground_truth": "A"
     },
     {
@@ -488,7 +488,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "D",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -832,7 +832,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "D",
+        "pred": "D) Orientation",
         "ground_truth": "D"
     },
     {
@@ -940,7 +940,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "C",
+        "pred": "C) 1.00",
         "ground_truth": "C"
     },
     {
@@ -988,7 +988,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "B) At epoch 20",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -1344,7 +1344,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "D) \\( s_u \\)",
+        "pred": "D",
         "ground_truth": "D"
     },
     {
@@ -1592,7 +1592,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "D",
+        "pred": "D) Poly-H",
         "ground_truth": "D"
     },
     {
@@ -1600,7 +1600,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "D",
+        "pred": "D) P(110)",
         "ground_truth": "D"
     },
     {
@@ -1616,11 +1616,11 @@
         "ground_truth": "C"
     },
     {
-        "pred": "D",
+        "pred": "D) Approximately 0.2",
         "ground_truth": "D"
     },
     {
-        "pred": "D",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -1664,7 +1664,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "C",
+        "pred": "C) Point 5",
         "ground_truth": "C"
     },
     {
@@ -1676,7 +1676,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "A) US",
+        "pred": "A",
         "ground_truth": "A"
     },
     {
@@ -1684,7 +1684,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "B",
+        "pred": "A",
         "ground_truth": "A"
     },
     {
@@ -1696,7 +1696,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "C",
+        "pred": "B",
         "ground_truth": "C"
     },
     {
@@ -1736,7 +1736,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "C",
+        "pred": "B",
         "ground_truth": "C"
     },
     {
@@ -1768,7 +1768,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "D",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -1840,7 +1840,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "B",
+        "pred": "A",
         "ground_truth": "B"
     },
     {
@@ -2012,7 +2012,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "B) 2C",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -2256,10 +2256,6 @@
         "ground_truth": "C"
     },
     {
-        "pred": "A",
-        "ground_truth": "B"
-    },
-    {
         "pred": "B",
         "ground_truth": "B"
     },
@@ -2272,7 +2268,11 @@
         "ground_truth": "B"
     },
     {
-        "pred": "A",
+        "pred": "B",
+        "ground_truth": "B"
+    },
+    {
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -2420,7 +2420,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "A",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -2588,7 +2588,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "C",
+        "pred": "B",
         "ground_truth": "C"
     },
     {
@@ -2756,7 +2756,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "B) Panel B",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -2880,7 +2880,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "D",
+        "pred": "C",
         "ground_truth": "D"
     },
     {
@@ -2964,7 +2964,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "C",
+        "pred": "B",
         "ground_truth": "C"
     },
     {
@@ -2988,7 +2988,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "C",
+        "pred": "C) aorsf-fast",
         "ground_truth": "C"
     },
     {
@@ -3116,7 +3116,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "A",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -3456,7 +3456,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "B",
+        "pred": "D",
         "ground_truth": "D"
     },
     {
@@ -3784,7 +3784,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "B",
+        "pred": "A",
         "ground_truth": "A"
     },
     {
@@ -3848,7 +3848,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "A) Memory Generator",
+        "pred": "A",
         "ground_truth": "A"
     },
     {
@@ -3908,7 +3908,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "B",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -4080,7 +4080,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "B) Position 60",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -4100,7 +4100,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "C",
+        "pred": "B",
         "ground_truth": "C"
     },
     {
@@ -4280,7 +4280,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "C",
+        "pred": "C) 3:2",
         "ground_truth": "C"
     },
     {
@@ -4380,11 +4380,11 @@
         "ground_truth": "C"
     },
     {
-        "pred": "B) MS-TCN++ module",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
-        "pred": "C) Unified Model",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -4648,7 +4648,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "C) Posture 4",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -4708,7 +4708,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "C",
+        "pred": "C) Distance Model",
         "ground_truth": "C"
     },
     {
@@ -4768,7 +4768,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "A) Orange",
+        "pred": "A",
         "ground_truth": "A"
     },
     {
@@ -4776,7 +4776,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "C) UM133",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -4816,7 +4816,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "D",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -4924,7 +4924,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "B) (b)",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -5104,7 +5104,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "B) 7 TeV",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -5148,7 +5148,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "D) GASP",
+        "pred": "D",
         "ground_truth": "D"
     },
     {
@@ -5164,7 +5164,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "C",
+        "pred": "A",
         "ground_truth": "A"
     },
     {
@@ -5196,7 +5196,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "B) and c)",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -5436,7 +5436,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "D) Sigmoid function",
+        "pred": "D",
         "ground_truth": "D"
     },
     {
@@ -5444,7 +5444,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "C",
+        "pred": "B",
         "ground_truth": "C"
     },
     {
@@ -5468,11 +5468,11 @@
         "ground_truth": "B"
     },
     {
-        "pred": "B) K-means clustering",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
-        "pred": "D",
+        "pred": "D) CoGeNT 2010",
         "ground_truth": "D"
     },
     {
@@ -5492,11 +5492,11 @@
         "ground_truth": "D"
     },
     {
-        "pred": "[Correct answer]",
+        "pred": "[Correct answer choice based on the figure]",
         "ground_truth": "[Correct answer choice based on the figure]"
     },
     {
-        "pred": "B) SC (b)",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -5608,7 +5608,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "B",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -5664,7 +5664,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "D",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -5696,7 +5696,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "[Correct answer]",
+        "pred": "[Correct answer choice based on the figure]",
         "ground_truth": "[Option depending on figure]"
     },
     {
@@ -5732,7 +5732,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "B) Random data sampling.",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -5772,7 +5772,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "D",
+        "pred": "A",
         "ground_truth": "A"
     },
     {
@@ -5872,7 +5872,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "C",
+        "pred": "C) 100 µm",
         "ground_truth": "C"
     },
     {
@@ -5888,7 +5888,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "C",
+        "pred": "B",
         "ground_truth": "C"
     },
     {
@@ -6152,7 +6152,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "D",
+        "pred": "D) 0.324",
         "ground_truth": "D"
     },
     {
@@ -6180,7 +6180,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "B) Figure (a3)",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -6288,7 +6288,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "D",
+        "pred": "A",
         "ground_truth": "A"
     },
     {
@@ -6368,7 +6368,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "D",
+        "pred": "C",
         "ground_truth": "A"
     },
     {
@@ -6684,7 +6684,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "A",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -7428,7 +7428,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "B) ks = 0.6",
+        "pred": "B",
         "ground_truth": "C"
     },
     {
@@ -7444,7 +7444,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "B) Joint 2",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -7472,7 +7472,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "A",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -7528,7 +7528,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "D",
+        "pred": "C",
         "ground_truth": "D"
     },
     {
@@ -7620,7 +7620,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "C) τ*=182 msec",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -7628,7 +7628,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "B) HKR15",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -7700,7 +7700,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "B",
+        "pred": "B) 0.2 V",
         "ground_truth": "B"
     },
     {
@@ -7724,7 +7724,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "B) \\(10^3 T_A\\)",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -7964,7 +7964,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "C",
+        "pred": "C) Stage 3",
         "ground_truth": "C"
     },
     {
@@ -7992,7 +7992,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "D",
+        "pred": "C",
         "ground_truth": "D"
     },
     {
@@ -8000,7 +8000,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "B) 2 - 3 arcsec",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -8216,7 +8216,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "B) 2017075072",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -8364,7 +8364,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "C",
+        "pred": "C) w3, Week 10",
         "ground_truth": "C"
     },
     {
@@ -8376,7 +8376,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "A) HPAS",
+        "pred": "A",
         "ground_truth": "A"
     },
     {
@@ -8556,7 +8556,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "D",
+        "pred": "C",
         "ground_truth": "D"
     },
     {
@@ -8836,7 +8836,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "A",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -8928,7 +8928,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "C",
+        "pred": "B",
         "ground_truth": "C"
     },
     {
@@ -8992,7 +8992,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "D",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -9184,8 +9184,20 @@
         "ground_truth": "C"
     },
     {
-        "pred": "B) 1.0",
+        "pred": "B",
         "ground_truth": "B"
+    },
+    {
+        "pred": "C",
+        "ground_truth": "C"
+    },
+    {
+        "pred": "B",
+        "ground_truth": "B"
+    },
+    {
+        "pred": "A",
+        "ground_truth": "A"
     },
     {
         "pred": "C",
@@ -9196,18 +9208,6 @@
         "ground_truth": "B"
     },
     {
-        "pred": "A",
-        "ground_truth": "A"
-    },
-    {
-        "pred": "C",
-        "ground_truth": "C"
-    },
-    {
-        "pred": "B",
-        "ground_truth": "B"
-    },
-    {
         "pred": "B",
         "ground_truth": "B"
     },
@@ -9216,7 +9216,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "B",
+        "pred": "D",
         "ground_truth": "B"
     },
     {
@@ -9232,7 +9232,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "C) Third row",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -9372,7 +9372,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "[Correct answer]",
+        "pred": "[Correct answer choice]",
         "ground_truth": "[Assuming a correct choice based on the figure]"
     },
     {
@@ -9380,7 +9380,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "B",
+        "pred": "D",
         "ground_truth": "D"
     },
     {
@@ -9388,7 +9388,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "B",
+        "pred": "A",
         "ground_truth": "A"
     },
     {
@@ -9472,7 +9472,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "A",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -9644,7 +9644,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "B) Zigzag strain",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -9680,7 +9680,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "C",
+        "pred": "A",
         "ground_truth": "A"
     },
     {
@@ -9788,7 +9788,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "A",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -9908,7 +9908,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "B",
+        "pred": "D",
         "ground_truth": "B"
     },
     {
@@ -10120,7 +10120,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "B",
+        "pred": "A",
         "ground_truth": "C"
     },
     {
@@ -10216,7 +10216,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "A",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -10256,7 +10256,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "A",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -10628,7 +10628,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "B",
+        "pred": "C",
         "ground_truth": "C. The curves are close together with a shaded area between them, suggesting high consistency."
     },
     {
@@ -10764,7 +10764,7 @@
         "ground_truth": "D"
     },
     {
-        "pred": "B) Class 2",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -10868,7 +10868,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "D",
+        "pred": "D) Detection and Diagnosis",
         "ground_truth": "D"
     },
     {
@@ -10984,7 +10984,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "B) GP-RQ",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -11004,7 +11004,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "B) Green",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -11096,7 +11096,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "A",
+        "pred": "B",
         "ground_truth": "D"
     },
     {
@@ -11184,7 +11184,7 @@
         "ground_truth": "A"
     },
     {
-        "pred": "C) Panel C",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -11372,7 +11372,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "B) RPA",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -11412,7 +11412,7 @@
         "ground_truth": "B"
     },
     {
-        "pred": "A",
+        "pred": "B",
         "ground_truth": "B"
     },
     {
@@ -11604,7 +11604,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "A",
+        "pred": "C",
         "ground_truth": "C"
     },
     {
@@ -11712,7 +11712,7 @@
         "ground_truth": "C"
     },
     {
-        "pred": "D",
+        "pred": "A",
         "ground_truth": "A"
     },
     {

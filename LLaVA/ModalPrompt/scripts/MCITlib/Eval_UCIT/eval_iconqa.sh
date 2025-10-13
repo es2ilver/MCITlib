@@ -12,14 +12,15 @@ read_config() {
 TASK="IconQA"
 GPU_NUM=$(read_config "$TRAIN_CONFIG" gpu_num)
 STAGE=$(read_config "$TRAIN_CONFIG" stage)
-MODELPATH=$(read_config "$MODEL_CONFIG" model_path)
-MODELBASE=$(read_config "$TRAIN_CONFIG" model_base)
+MODELPATH=$(read_config "$TRAIN_CONFIG" model_path)
+MODELBASE=$(read_config "$MODEL_CONFIG" model_name)
 DATA_PATH=$(read_config "$DATA_CONFIG" test_path)
 IMAGE=$(read_config "$DATA_CONFIG" test_folder)
 TEXT_TOWER=$(read_config "$TRAIN_CONFIG" text_tower)
 PREFIX_LEN=$(read_config "$TRAIN_CONFIG" prefix_len)
 CUR_TASK=$(read_config "$TRAIN_CONFIG" cur_task)
-NUM_TASK=$(read_config "$TRAIN_CONFIG" num_task)
+NUM_TASK=$(read_config "$TRAIN_CONFIG" num_tasks)
+RESULT_PATH=$(read_config "$TRAIN_CONFIG" result_path)
 
 gpu_list=""
 for ((i=0; i<GPU_NUM; i++)); do

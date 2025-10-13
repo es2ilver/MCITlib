@@ -50,6 +50,7 @@ llava/eval/model_vqa_qbench.py
 llava/eval/qa_baseline_gpt35.py
 llava/eval/run_llava.py
 llava/eval/summarize_gpt_review.py
+llava/eval/ModalPrompt/api.py
 llava/eval/ModalPrompt/convert_result_to_submission.py
 llava/eval/ModalPrompt/eval_ImagetNet.py
 llava/eval/ModalPrompt/eval_ai2d.py

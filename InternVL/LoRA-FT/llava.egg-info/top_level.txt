@@ -1,4 +1,3 @@
 CoIN
-configs
 llava
 results

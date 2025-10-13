@@ -1,4 +1,3 @@
 CoIN-ASD
-configs
 llava
 results
