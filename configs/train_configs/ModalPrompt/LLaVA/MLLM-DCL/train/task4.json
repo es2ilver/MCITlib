@@ -5,7 +5,7 @@
   "prefix_len": 20,
   "num_tasks": 5,
   "cur_task": 4,
-  "epoch": 10,
+  "epoch": 2,
   "batch_size": 8,
   "grad_acc": 2,
   "lr": 2e-4
