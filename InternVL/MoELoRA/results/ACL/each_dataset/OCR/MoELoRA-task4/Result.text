@@ -1,2 +1,0 @@
-Samples: 1000
-Final_score_dict: {'Text Recognition': 65, 'Scene Text-centric VQA': 78, 'Doc-oriented VQA': 23, 'Key Information Extraction': 12, 'Handwritten Mathematical Expression Recognition': 0, 'Final Score': 178, 'Final Score Norm': 17.8}
