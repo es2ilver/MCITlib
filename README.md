@@ -26,7 +26,15 @@
 
 ## ✨ Introduction
 
-Welcome to **MCITlib** — a comprehensive library for continual instruction tuning based on multimodal large language models. This repository continuously integrates a range of existing methods, including MoELoRA, HiDe-LLaVA, and CL-MoE. In addition, MCITlib provides evaluation results for these methods across diverse benchmarks and model architectures. Through MCITlib, we hope to foster broader interest and engagement in this promising research field.
+Welcome to **MCITlib** — your ultimate library for **continual instruction tuning** with **multimodal large language models**. MCITlib brings together a diverse set of cutting-edge methods into a unified, easy-to-use framework. Beyond method integration, MCITlib offers **comprehensive evaluation results** across a variety of benchmarks and model architectures, empowering researchers and practitioners to explore and innovate in this exciting field.
+
+**Why choose MCITlib？**
+
+- 🚀 **Pioneering Open Source:** We are proud to be the **first open-source repository** to provide a complete codebase and benchmark suite dedicated to multimodal continual instruction tuning.
+- 🌟 **Beginner-Friendly Design:** MCITlib is designed with usability in mind, offering **clear, step-by-step guidance** to help newcomers quickly get started and make meaningful progress.
+- 🔄 **Continuous Innovation:** Our commitment doesn’t stop here. We will **regularly update MCITlib**, integrating new methods and benchmarks to stay at the forefront of the field and provide lasting value to the community.
+
+Whether you're a beginner seeking to learn or an expert aiming to innovate, **MCITlib** is your gateway to advancing multimodal continual instruction tuning research. Join us and contribute to shaping the future of this rapidly evolving domain!
 
 <details open><summary>🫰 We also have other multimodal continual instruction tuning projects that may interest you 🫰. </summary><p>
 <!--  may -->
@@ -47,6 +55,10 @@ Welcome to **MCITlib** — a comprehensive library for continual instruction tun
 > Haiyang Guo, Fanhu Zeng, Fei Zhu, Jiayi Wang, Xukai Wang, Jingang Zhou, Hongbo Zhao, <br> Wenzhuo Liu, Shijie Ma, Da-Han Wang, Xu-Yao Zhang, Cheng-Lin Liu <br>
 [![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/Ghy0501/Awesome-Continual-Learning-in-Generative-Models) [![arXiv](https://img.shields.io/badge/Arxiv-2506.13045-b31b1b.svg?logo=arXiv)](https://arxiv.org/pdf/2506.13045) <br>
 
+> [**MLLM-CL: Continual Learning for Multimodal Large Language Models**](https://arxiv.org/pdf/2506.05453) <br>
+> Hongbo Zhao, Fei Zhu, Haiyang Guo, Meng Wang, Rundong Wang, Gaofeng Meng, Zhaoxiang Zhang <br>
+[![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/bjzhb666/MLLM-CL) [![arXiv](https://img.shields.io/badge/Arxiv-2506.05453-b31b1b.svg?logo=arXiv)](https://arxiv.org/pdf/2506.05453) <br>
+
 > [**LLaVA-c: Continual Improved Visual Instruction Tuning**](https://arxiv.org/pdf/2506.08666?) <br>
 > Wenzhuo Liu, Fei Zhu, Haiyang Guo, Longhui Wei, Cheng-Lin Liu <br>
 [![arXiv](https://img.shields.io/badge/Arxiv-2506.08666-b31b1b.svg?logo=arXiv)](https://arxiv.org/pdf/2506.08666?) <br>
@@ -58,7 +70,7 @@ Welcome to **MCITlib** — a comprehensive library for continual instruction tun
 
 ## 📰 News
 
-- **[2025.10.12]** We will update the training and testing codes of all methods InternVL and LLaVA on UCIT, MLLM-DCL and MLLM-ACL next week, so stay tuned! :tada:
+- **[2025.10.14]** 🔥🔥🔥 **MCITlib-v2** has been updated! The latest version includes training and testing code for **8 mainstream multimodal continual instruction tuning methods**, compatible with **2 base models** and **3 continual instruction tuning datasets**. 🎉🎉🎉
 - **[2025.09.16]** We have updated the new version of the [paper](https://arxiv.org/pdf/2508.07307) and attached the accuracy matrix of each method for reference. :tada:
 - **[2025.08.12]** Initial [MCITlib](https://arxiv.org/pdf/2508.07307) paper released! :tada:
 - **[2025.08.10]** Initial version of MCITlib is released. :tada:
@@ -120,6 +132,8 @@ Note: To meet the requirements of certain methods, we need to apply additional p
 1. add `"mm_text_select_layer": -1` and `"mm_text_tower": "/your_path/clip-vit-large-patch14-336"` to the `config.py` in your local model weight path `/your_path/llava-v1.5-7b` and `/your_path/Internvl-chat-7b`.
 2. remove `"temperature": 0.9` and `"top_p": 0.6` in the `generation_config.json` of your local model weight path.
 
+We provide reference `config.py` and `generation_config.json` in `examples`.
+
 ## 🏃 How to run
 
 Note: Our experiment is conducted in a CUDA 11.8 environment, with most libraries in the setup aligned to this CUDA version. Therefore, we recommend using `nvcc -V` to check the CUDA version on your current server. If it does not match, please install CUDA 11.8 before proceeding.
@@ -133,7 +147,7 @@ cd MCITlib
 conda create -n MCITlib python=3.10 -y
 conda activate MCITlib
 conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.8 -c pytorch -c nvidia
-cd LoRA-FT
+cd LLaVA/LoRA-FT
 pip install --upgrade pip
 pip install -e .
 pip install -e ".[train]"
@@ -144,14 +158,29 @@ pip install flash_attn-2.6.3+cu118torch2.0cxx11abiFALSE-cp310-cp310-linux_x86_64
 ```
 We also provide an `environment.yml` file to help users identify missing dependencies and version mismatches. However, due to potential library conflicts, automatic installation may fail to install certain packages. We therefore recommend manually installing them based on the provided error messages and version specifications. For essential evaluation-related dependencies, please refer to the [UCIT](https://github.com/Ghy0501/HiDe-LLaVA) and [MLLM-CL](https://github.com/bjzhb666/MLLM-CL) repositories.
 
-### 3. Training and Evaluation
+### 3. Modify path and parameter settings
+
+Before running, please set all the model paths to your local paths. The paths that need to be modified are listed below, and don’t forget to update the dataset path as well.
+
+- Change `/mnt/haiyangguo/mywork/CL-MLLM/MCITlib_v2` to `/your_path/MCITlib`.
+- Change `/mnt/haiyangguo/mywork/FCIT/pre_trained/llava-v1.5-7b` to `/your_path/llava-v1.5-7b`.
+- Change `/mnt/haiyangguo/mywork/CL-MLLM/pre_trained/Internvl-chat-7b` to `/your_path/Internvl-chat-7b`.
+- Change `/mnt/ShareDB_6TB/models/clip-vit-large-patch14-336` to `/your_path/clip-vit-large-patch14-336`.
+- Change `/mnt/ShareDB_6TB/models/InternViT-6B-224px` to `/your_path/InternViT-6B-224px`.
+- Change `/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoint` to `/your_path/checkpoint`.
+
+After adjusting the path, users can modify parameters like `gpu_num` based on their actual operating environment. All parameter settings are integrated into the `configs/` folder.
+
+Note: We recommend using the `Find in Folder` command in VS Code for search and replace operations.
+
+### 4. Training and Evaluation
 
 We provide predefined training and testing hyperparameters in the `configs` files within each method's directory, which can be adjusted as needed. The corresponding training and testing scripts are located in the `scripts` directory. Once all paths are correctly configured, the scripts should execute without issues. For example:
 ```
-cd LoRA-FT
-sh scripts/CoIN/Train_DCL/train_all.sh
+cd LLaVA/LoRA-FT
+sh scripts/MCITlib/Train/train_DCL.sh
 ```
-The program will automatically perform both training and inference. However, for ModalPrompt, training and inference must be executed separately. Please refer to its [repository](https://github.com/AuroraZengfh/ModalPrompt) for detailed instructions.
+The program will automatically perform both training and inference. However, for ModalPrompt (LLaVA version), training and inference must be executed separately. Please refer to its [repository](https://github.com/AuroraZengfh/ModalPrompt) for detailed instructions.
 
 ## Citation
 
