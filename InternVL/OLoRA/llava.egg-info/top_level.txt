@@ -1,4 +1,0 @@
-CoIN
-configs
-llava
-results
