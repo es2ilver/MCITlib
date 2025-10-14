@@ -1,4 +1,0 @@
-ModalPrompt
-configs
-llava
-results
