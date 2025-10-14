@@ -10,7 +10,6 @@ from llava.conversation import conv_templates, SeparatorStyle
 from llava.model.builder import load_pretrained_model
 from llava.utils import disable_torch_init
 from llava.mm_utils import tokenizer_image_token, process_images, get_model_name_from_path, KeywordsStoppingCriteria
-from llava.eval.CoIN.coin_utils import get_model_name_from_path
 from torch.utils.data import Dataset, DataLoader
 
 from PIL import Image
