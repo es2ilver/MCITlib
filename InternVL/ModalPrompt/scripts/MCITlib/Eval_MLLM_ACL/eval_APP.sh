@@ -40,6 +40,10 @@ for IDX in $(seq 0 $((CHUNKS-1))); do
         --model-base $MODELBASE \
         --question-file $DATA_PATH \
         --image-folder $IMAGE \
+        --text-tower $TEXT_TOWER\
+        --prefix-len $PREFIX_LEN \
+        --cur-task $CUR_TASK \
+        --num-tasks $NUM_TASK \
         --answers-file $RESULT_DIR/$STAGE/${CHUNKS}_${IDX}.jsonl \
         --num-chunks $CHUNKS \
         --chunk-idx $IDX \
