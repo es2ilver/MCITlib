@@ -41,7 +41,7 @@ GPU_LIST=${GPU_LIST%,}
 # PROMPT_VERSION="llava_llama_2"
 # MODEL_VERSION="Llama-2-7b-chat-hf"
 ################## LLaMA-2 ##################
-# python key_elements_identification.py $ID $KEY_PATH $BASE_MODEL
+python key_elements_identification.py $ID $KEY_PATH $BASE_MODEL
 
 ORIGINAL_PATH="${PREVIOUS%_merged}"
 REG_PATH="${ORIGINAL_PATH}_topP.pth"
