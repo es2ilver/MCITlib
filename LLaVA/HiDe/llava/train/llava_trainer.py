@@ -9,7 +9,7 @@ from transformers.trainer import (
     get_parameter_names,
     has_length,
     ALL_LAYERNORM_LAYERS,
-    ShardedDDPOption,
+    # ShardedDDPOption,
     logger,
 )
 from typing import List, Optional
@@ -156,8 +156,8 @@ class LLaVATrainer(Trainer):
         """
         if is_sagemaker_mp_enabled():
             return super().create_optimizer()
-        if self.sharded_ddp == ShardedDDPOption.SIMPLE:
-            return super().create_optimizer()
+        # if self.sharded_ddp == ShardedDDPOption.SIMPLE:
+        #     return super().create_optimizer()
 
         opt_model = self.model
 
@@ -212,12 +212,14 @@ class LLaVATrainer(Trainer):
 
             optimizer_cls, optimizer_kwargs = Trainer.get_optimizer_cls_and_kwargs(self.args)
 
-            if self.sharded_ddp == ShardedDDPOption.SIMPLE:
-                self.optimizer = OSS(
-                    params=optimizer_grouped_parameters,
-                    optim=optimizer_cls,
-                    **optimizer_kwargs,
-                )
+            if False:
+                # self.sharded_ddp == ShardedDDPOption.SIMPLE:
+                # self.optimizer = OSS(
+                #     params=optimizer_grouped_parameters,
+                #     optim=optimizer_cls,
+                #     **optimizer_kwargs,
+                # )
+                pass
             else:
                 self.optimizer = optimizer_cls(optimizer_grouped_parameters, **optimizer_kwargs)
                 if optimizer_cls.__name__ == "Adam8bit":
