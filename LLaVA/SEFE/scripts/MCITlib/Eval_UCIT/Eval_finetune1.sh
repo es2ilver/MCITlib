@@ -1,4 +1,4 @@
-# #!/bin/bash
+#!/bin/bash
 
 TASK_ID=$1
 HARD_PATH=/home/data/vgilab/jeongeun/MCITlib
