@@ -31,8 +31,14 @@ BATCH_SIZE=$(read_config "$TRAIN_CONFIG" batch_size)
 GRAD_ACC=$(read_config "$TRAIN_CONFIG" grad_acc)
 LR=$(read_config "$TRAIN_CONFIG" lr)
 
+# GPU_LIST=""
+# for i in $(seq 0 $((GPU_NUM-1))); do
+#     GPU_LIST+="$i,"
+# done
+# GPU_LIST=${GPU_LIST%,}
+GPU_START=0  # GPU 시작 번호: 0~3
 GPU_LIST=""
-for i in $(seq 0 $((GPU_NUM-1))); do
+for i in $(seq $GPU_START $((GPU_START + GPU_NUM - 1))); do
     GPU_LIST+="$i,"
 done
 GPU_LIST=${GPU_LIST%,}
