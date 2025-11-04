@@ -66,7 +66,7 @@ def eval_single(annotation_file, result_file):
     return ans_gt_file
 
 def process_batch(api_key, batch):
-    message = (
+    user_text = (
         "You are an expert evaluator assessing the semantic similarity between model-generated responses and ground truth answers. "
         "For each pair, provide a similarity score between 0 and 10 based on meaning, where 10 means the two responses are identical in meaning, "
         "and 0 means they are completely unrelated. Use the format 'Score: X' for each pair without explanations."
@@ -74,18 +74,33 @@ def process_batch(api_key, batch):
         "\n".join([f"{i+1}. Model Response: {item['pred']}\n   Ground Truth: {item['ground_truth']}" for i, item in enumerate(batch)])
     )
 
-    client = OpenAI(api_key=api_key)  # OpenAI 공식 API 사용
+    client = OpenAI(api_key=api_key)
 
-    response = client.chat.completions.create(
+    payload = dict(
         model='gpt-5-mini',
-        messages=[
-            {"role": "system", "content": "You are an AI assistant evaluating the semantic similarity of responses."},
-            {"role": "user", "content": message},
-        ],
-        stream=False
+        instructions="You are an AI assistant evaluating the semantic similarity of responses.",
+        input=[{
+            "role": "user",
+            "content": [
+                {"type": "input_text", "text": user_text}
+            ]
+        }]
     )
 
-    evaluation_text = response.choices[0].message.content
+    try:
+        resp = client.responses.create(**payload)
+        evaluation_text = resp.output[0].content if hasattr(resp, 'output') and resp.output else resp.choices[0].message.content
+    except AttributeError:
+        # Fallback to old API format if responses.create doesn't exist
+        response = client.chat.completions.create(
+            model='gpt-5-mini',
+            messages=[
+                {"role": "system", "content": "You are an AI assistant evaluating the semantic similarity of responses."},
+                {"role": "user", "content": user_text},
+            ],
+            stream=False
+        )
+        evaluation_text = response.choices[0].message.content
 
     # 提取 "Score: X" 形式的数值
     scores = []

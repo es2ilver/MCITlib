@@ -108,9 +108,9 @@ def process_batch(api_key, batch):
     """
     from openai import OpenAI  # 确保每个子进程加载必要的模块
 
-    client = OpenAI(api_key=api_key)  # OpenAI 공식 API 사용
+    client = OpenAI(api_key=api_key)
 
-    message = (
+    user_text = (
         "Below are the model's predictions and the ground truth answers for a task. "
         "For each case, provide a semantic similarity score between 0 and 10 in the format 'Score: X', "
         "where X is your score. Always use the format 'Score:' and do not explain anything."
@@ -118,19 +118,38 @@ def process_batch(api_key, batch):
         "\n".join([f"{i+1}. Pred: {item['pred']}, Ground Truth: {item['ground_truth']}" for i, item in enumerate(batch)])
     )
 
-    response = client.chat.completions.create(
+    payload = dict(
         model="gpt-5-mini",
-        messages=[{"role": "system", "content": "You are an AI assistant evaluating a model's prediction quality"}, {"role": "user", "content": message}],
-        stream=False
+        instructions="You are an AI assistant evaluating a model's prediction quality",
+        input=[{
+            "role": "user",
+            "content": [
+                {"type": "input_text", "text": user_text}
+            ]
+        }]
     )
 
-    evaluation_text = response.choices[0].message.content
+    try:
+        resp = client.responses.create(**payload)
+        evaluation_text = resp.output[0].content if hasattr(resp, 'output') and resp.output else resp.choices[0].message.content
+    except AttributeError:
+        # Fallback to old API format if responses.create doesn't exist
+        response = client.chat.completions.create(
+            model="gpt-5-mini",
+            messages=[{"role": "system", "content": "You are an AI assistant evaluating a model's prediction quality"}, {"role": "user", "content": user_text}],
+            stream=False
+        )
+        evaluation_text = response.choices[0].message.content
 
     # 提取评分
     scores = []
     for line in evaluation_text.splitlines():
-        score = float(line.split(":")[1].strip())
-        scores.append(score)
+        if "Score:" in line:
+            try:
+                score = float(line.split(":")[1].strip())
+                scores.append(score)
+            except (ValueError, IndexError):
+                continue  # 跳过无法解析的行
     return scores
 
 def deepseek_chat_final(api_key, path, batch_size=10):
