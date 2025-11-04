@@ -1,7 +1,7 @@
 {
-  "train_path": "/data/vgilab/jeongeun/datasets/UCIT/annotations/VizWiz-caption/train.json",
-  "test_path": "/data/vgilab/jeongeun/datasets/UCIT/annotations/VizWiz-caption/test_3000.json",
-  "anno_path": "/data/vgilab/jeongeun/datasets/UCIT/annotations/VizWiz-caption/val_coco_type_3000.json",
+  "train_path": "/home/data/vgilab/jeongeun/datasets/UCIT/annotations/VizWiz-caption/train.json",
+  "test_path": "/home/data/vgilab/jeongeun/datasets/UCIT/annotations/VizWiz-caption/test_3000.json",
+  "anno_path": "/home/data/vgilab/jeongeun/datasets/UCIT/annotations/VizWiz-caption/val_coco_type_3000.json",
   "train_folder": "/home/data/vgilab/jeongeun/datasets/UCIT",
   "test_folder": "/home/data/vgilab/jeongeun/datasets/UCIT"
 }
