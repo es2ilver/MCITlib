@@ -1,6 +1,6 @@
 {
-  "train_path": "/mnt/ShareDB_6TB/datasets/MLLM_CL/ACL_instructions/IconQA/train.json",
-  "test_path": "/mnt/ShareDB_6TB/datasets/MLLM_CL/ACL_instructions/IconQA/test_3000.json",
-  "train_folder": "/mnt/ShareDB_6TB/datasets/MLLM_CL/datasets",
-  "test_folder": "/mnt/ShareDB_6TB/datasets/MLLM_CL/datasets"
+  "train_path": "/data/vgilab/jeongeun/datasets/UCIT/annotations/IconQA/train.json",
+  "test_path": "/data/vgilab/jeongeun/datasets/UCIT/annotations/IconQA/test_3000.json",
+  "train_folder": "/home/data/vgilab/jeongeun/datasets/UCIT",
+  "test_folder": "/home/data/vgilab/jeongeun/datasets/UCIT"
 }
