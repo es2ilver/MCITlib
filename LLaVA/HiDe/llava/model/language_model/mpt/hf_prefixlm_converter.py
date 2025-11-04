@@ -12,8 +12,29 @@ from types import MethodType
 from typing import Any, Dict, List, Optional, Tuple, Union
 import torch
 from transformers.models.bloom.modeling_bloom import BaseModelOutputWithPastAndCrossAttentions, BloomForCausalLM, BloomModel, CausalLMOutputWithCrossAttentions, CrossEntropyLoss
-from transformers.models.bloom.modeling_bloom import _expand_mask as _expand_mask_bloom
-from transformers.models.bloom.modeling_bloom import _make_causal_mask as _make_causal_mask_bloom
+try:
+    from transformers.models.bloom.modeling_bloom import _expand_mask as _expand_mask_bloom
+    from transformers.models.bloom.modeling_bloom import _make_causal_mask as _make_causal_mask_bloom
+except ImportError:
+    # Fallback for newer transformers versions
+    def _expand_mask_bloom(mask: torch.Tensor, tgt_length: Optional[int] = None):
+        """Expands attention_mask from `[bsz, seq_len]` to `[bsz, 1, tgt_seq_len, src_seq_len]`."""
+        bsz, src_len = mask.size()
+        tgt_len = tgt_length if tgt_length is not None else src_len
+        expanded_mask = mask[:, None, None, :].expand(bsz, 1, tgt_len, src_len).to(torch.bool)
+        return expanded_mask
+    
+    def _make_causal_mask_bloom(input_shape: Tuple[int, int], device: torch.device, past_key_values_length: int = 0):
+        """Makes causal mask used for bi-directional self-attention."""
+        bsz, tgt_len = input_shape
+        mask = torch.full((tgt_len, tgt_len), torch.tensor(torch.finfo(torch.float32).min, device=device), device=device)
+        mask_cond = torch.arange(mask.size(-1), device=device)
+        mask.masked_fill_(mask_cond < (mask_cond + 1).view(mask.size(-1), 1), 0)
+        mask = mask.to(torch.bool)
+        if past_key_values_length > 0:
+            mask = torch.cat([torch.zeros(tgt_len, past_key_values_length, dtype=torch.bool, device=device), mask], dim=-1)
+        return mask[None, None, :, :].expand(bsz, 1, -1, -1)
+
 from transformers.models.bloom.modeling_bloom import logging
 from transformers.models.gpt2.modeling_gpt2 import GPT2LMHeadModel
 from transformers.models.gpt_neo.modeling_gpt_neo import GPTNeoForCausalLM
