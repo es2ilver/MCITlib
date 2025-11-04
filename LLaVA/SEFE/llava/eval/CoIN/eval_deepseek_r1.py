@@ -74,10 +74,10 @@ def process_batch(api_key, batch):
         "\n".join([f"{i+1}. Model Response: {item['pred']}\n   Ground Truth: {item['ground_truth']}" for i, item in enumerate(batch)])
     )
 
-    client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
+    client = OpenAI(api_key=api_key)  # OpenAI 공식 API 사용
 
     response = client.chat.completions.create(
-        model='deepseek-chat',
+        model='gpt-5-mini',
         messages=[
             {"role": "system", "content": "You are an AI assistant evaluating the semantic similarity of responses."},
             {"role": "user", "content": message},
@@ -134,11 +134,12 @@ if __name__ == "__main__":
         ans_gt_file = eval_single(args.annotation_file, args.result_file)
 
         # api_key = "sk-d9e2eec1fa154fa78d4d934bb6bba976"   # deepseek  sk-d9e2eec1fa154fa78d4d934bb6bba976
+        api_key = "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"  # 여기에 실제 API 키 입력
 
-        # batch_size = 2 
-        # overall_accuracy = deepseek_chat_final(api_key, ans_gt_file, batch_size=batch_size)
-        # print(f"Overall Accuracy: {overall_accuracy*10:.2f}")
-        # if args.output_dir is not None:
-        #     output_file = os.path.join(args.output_dir, 'Result_api.text')
-        #     with open(output_file, 'w') as f:
-        #         f.write('Accuracy: {:.2f}%\n'.format(overall_accuracy*10))
+        batch_size = 2 
+        overall_accuracy = deepseek_chat_final(api_key, ans_gt_file, batch_size=batch_size)
+        print(f"Overall Accuracy: {overall_accuracy*10:.2f}")
+        if args.output_dir is not None:
+            output_file = os.path.join(args.output_dir, 'Result_api.text')
+            with open(output_file, 'w') as f:
+                f.write('Accuracy: {:.2f}%\n'.format(overall_accuracy*10))

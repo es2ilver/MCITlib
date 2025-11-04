@@ -108,7 +108,7 @@ def process_batch(api_key, batch):
     """
     from openai import OpenAI  # 确保每个子进程加载必要的模块
 
-    client = OpenAI(api_key=api_key, base_url="https://platform.llmprovider.ai/v1")
+    client = OpenAI(api_key=api_key)  # OpenAI 공식 API 사용
 
     message = (
         "Below are the model's predictions and the ground truth answers for a task. "
@@ -119,7 +119,7 @@ def process_batch(api_key, batch):
     )
 
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5-mini",
         messages=[{"role": "system", "content": "You are an AI assistant evaluating a model's prediction quality"}, {"role": "user", "content": message}],
         stream=False
     )
@@ -177,11 +177,12 @@ if __name__ == "__main__":
         eval_single(output_file, args.annotation_file, total)
 
         # api_key = "sk-GdmqmU6fFWv5N0HlvYluLFzIbXIPNg3MHzPGeeV247092807Ba2e4487B9D5796cA3Be7dD4"
+        api_key = "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"
 
-        # batch_size = 8 
-        # overall_accuracy = deepseek_chat_final(api_key, ans_gt_file, batch_size=batch_size)
-        # print(f"Overall Accuracy: {overall_accuracy*10:.2f}")
-        # if args.output_dir is not None:
-        #     output_file = os.path.join(args.output_dir, 'Result_api.text')
-        #     with open(output_file, 'w') as f:
-        #         f.write('Accuracy: {:.2f}%\n'.format(overall_accuracy*10))
+        batch_size = 8 
+        overall_accuracy = deepseek_chat_final(api_key, ans_gt_file, batch_size=batch_size)
+        print(f"Overall Accuracy: {overall_accuracy*10:.2f}")
+        if args.output_dir is not None:
+            output_file = os.path.join(args.output_dir, 'Result_api.text')
+            with open(output_file, 'w') as f:
+                f.write('Accuracy: {:.2f}%\n'.format(overall_accuracy*10))
