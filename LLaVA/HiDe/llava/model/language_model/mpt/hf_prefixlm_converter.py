@@ -41,8 +41,29 @@ from transformers.models.gpt_neo.modeling_gpt_neo import GPTNeoForCausalLM
 from transformers.models.gpt_neox.modeling_gpt_neox import GPTNeoXForCausalLM
 from transformers.models.gptj.modeling_gptj import GPTJForCausalLM
 from transformers.models.opt.modeling_opt import OPTForCausalLM
-from transformers.models.opt.modeling_opt import _expand_mask as _expand_mask_opt
-from transformers.models.opt.modeling_opt import _make_causal_mask as _make_causal_mask_opt
+try:
+    from transformers.models.opt.modeling_opt import _expand_mask as _expand_mask_opt
+    from transformers.models.opt.modeling_opt import _make_causal_mask as _make_causal_mask_opt
+except ImportError:
+    # Fallback for newer transformers versions
+    def _expand_mask_opt(mask: torch.Tensor, dtype: torch.dtype, tgt_length: Optional[int] = None):
+        """Expands attention_mask from `[bsz, seq_len]` to `[bsz, 1, tgt_seq_len, src_seq_len]`."""
+        bsz, src_len = mask.size()
+        tgt_len = tgt_length if tgt_length is not None else src_len
+        expanded_mask = mask[:, None, None, :].expand(bsz, 1, tgt_len, src_len).to(dtype)
+        inverted_mask = 1.0 - expanded_mask
+        return inverted_mask.masked_fill(inverted_mask.to(torch.bool), torch.finfo(dtype).min)
+    
+    def _make_causal_mask_opt(input_shape: Tuple[int, int], dtype: torch.dtype, past_key_values_length: int = 0):
+        """Makes causal mask used for bi-directional self-attention."""
+        bsz, tgt_len = input_shape
+        # Device will be set by caller using .to() method
+        mask = torch.full((tgt_len, tgt_len), torch.finfo(dtype).min, dtype=dtype)
+        mask_cond = torch.arange(mask.size(-1))
+        mask.masked_fill_(mask_cond < (mask_cond + 1).view(mask.size(-1), 1), 0)
+        if past_key_values_length > 0:
+            mask = torch.cat([torch.zeros(tgt_len, past_key_values_length, dtype=dtype), mask], dim=-1)
+        return mask[None, None, :, :].expand(bsz, 1, -1, -1)
 logger = logging.get_logger(__name__)
 _SUPPORTED_GPT_MODELS = (GPT2LMHeadModel, GPTJForCausalLM, GPTNeoForCausalLM, GPTNeoXForCausalLM)
 CAUSAL_GPT_TYPES = Union[GPT2LMHeadModel, GPTJForCausalLM, GPTNeoForCausalLM, GPTNeoXForCausalLM]
