@@ -4,10 +4,10 @@
 
 # Need to call this before importing transformers.
 import sys
-sys.path.append('/mnt/haiyangguo/mywork/CL-MLLM/MCITlib_v2/LLaVA/HiDe')
+sys.path.append('/home/data/vgilab/jeongeun/MCITlib/LLaVA/HiDe')
 from llava.train.llama_flash_attn_monkey_patch import replace_llama_attn_with_flash_attn
 
-replace_llama_attn_with_flash_attn()
+# replace_llama_attn_with_flash_attn()
 
 from llava.train.train_MOE import train
 
