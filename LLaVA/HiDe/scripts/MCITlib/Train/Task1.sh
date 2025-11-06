@@ -39,7 +39,8 @@ GPU_LIST=${GPU_LIST%,}
 # MODEL_VERSION="Llama-2-7b-chat-hf"
 ################## LLaMA-2 ##################
 
-deepspeed --include localhost:$GPU_LIST --master_port 24600 llava/train/train_mem_MOE.py \
+# deepspeed --include localhost:$GPU_LIST --master_port 24600 llava/train/train_mem_MOE.py \
+deepspeed --num_gpus $GPU_NUM --master_port 24600 llava/train/train_mem_MOE.py \
     --deepspeed ./scripts/zero2.json \
     --lora_enable True --lora_r $RANK --lora_alpha $((RANK * 2)) --mm_projector_lr 2e-5 \
     --expert_num $EXPERT \
