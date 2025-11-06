@@ -66,7 +66,6 @@ deepspeed --include localhost:$GPU_LIST --master_port 9001 llava/train/train_mem
     --evaluation_strategy "no" \
     --save_strategy "steps" \
     --save_steps 50000 \
-    --save_safetensors False \
     --learning_rate $LR \
     --weight_decay 0. \
     --warmup_ratio 0.03 \

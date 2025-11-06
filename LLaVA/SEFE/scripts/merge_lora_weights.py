@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/mnt/haiyangguo/mywork/CL-MLLM/MCITlib_v2/LLaVA/SEFE')
+sys.path.append('/home/data/vgilab/jeongeun/MCITlib/LLaVA/SEFE')
 import argparse
 from llava.model.builder import load_pretrained_model
 from llava.eval.CoIN.coin_utils import get_model_name_from_path
@@ -9,7 +9,7 @@ def merge_lora(args):
     model_name = get_model_name_from_path(args.model_path)
     tokenizer, model, image_processor, context_len = load_pretrained_model(args.model_path, args.model_base, model_name, device_map='cpu')
 
-    model.save_pretrained(args.save_model_path)
+    model.save_pretrained(args.save_model_path, safe_serialization=False)
     tokenizer.save_pretrained(args.save_model_path)
 
 

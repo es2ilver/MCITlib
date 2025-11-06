@@ -4,6 +4,7 @@ import json
 import re
 import time
 from openai import OpenAI
+from openai.error import APIError, RateLimitError, ServiceUnavailableError, Timeout
 from multiprocessing import Pool, cpu_count
 
 
@@ -65,7 +66,7 @@ def eval_single(annotation_file, result_file):
 
     return ans_gt_file
 
-def process_batch(api_key, batch):
+def process_batch(api_key, batch, max_retries=5):
     user_text = (
         "You are an expert evaluator assessing the semantic similarity between model-generated responses and ground truth answers. "
         "For each pair, provide a similarity score between 0 and 10 based on meaning, where 10 means the two responses are identical in meaning, "
@@ -74,65 +75,49 @@ def process_batch(api_key, batch):
         "\n".join([f"{i+1}. Model Response: {item['pred']}\n   Ground Truth: {item['ground_truth']}" for i, item in enumerate(batch)])
     )
 
-    try:
-        client = OpenAI(api_key=api_key)
+    client = OpenAI(api_key=api_key)
 
-        # Try new API format first if it exists
-        if hasattr(client, 'responses') and hasattr(client.responses, 'create'):
-            try:
-                payload = dict(
-                    model='gpt-5-mini',
-                    instructions="You are an AI assistant evaluating the semantic similarity of responses.",
-                    input=[{
-                        "role": "user",
-                        "content": [
-                            {"type": "input_text", "text": user_text}
-                        ]
-                    }]
-                )
-                resp = client.responses.create(**payload)
-                evaluation_text = resp.output[0].content if hasattr(resp, 'output') and resp.output else resp.choices[0].message.content
-            except Exception:
-                # If new API fails, fallback to standard API
-                response = client.chat.completions.create(
-                    model='gpt-5-mini',
-                    messages=[
-                        {"role": "system", "content": "You are an AI assistant evaluating the semantic similarity of responses."},
-                        {"role": "user", "content": user_text},
-                    ],
-                    stream=False
-                )
-                evaluation_text = response.choices[0].message.content
-        else:
-            # Use standard chat.completions API
-            response = client.chat.completions.create(
-                model='gpt-5-mini',
-                messages=[
-                    {"role": "system", "content": "You are an AI assistant evaluating the semantic similarity of responses."},
-                    {"role": "user", "content": user_text},
-                ],
-                stream=False
+    for attempt in range(max_retries):
+        try:
+            resp = client.responses.create(
+                model="gpt-4o-mini",  # or gpt-4o
+                input=[{
+                    "role": "user",
+                    "content": [{"type": "input_text", "text": user_text}]
+                }],
+                instructions="You are an AI assistant evaluating the semantic similarity of responses.",
             )
-            evaluation_text = response.choices[0].message.content
+            # 안정적으로 텍스트 추출
+            if hasattr(resp, "output") and resp.output:
+                evaluation_text = resp.output[0].content[0].text
+            else:
+                evaluation_text = resp.choices[0].message.content
+            break  # 성공 시 루프 탈출
 
-        # 提取 "Score: X" 形式的数值
-        scores = []
-        for line in evaluation_text.splitlines():
-            if "Score:" in line:
-                try:
-                    score = float(line.split(":")[1].strip())
-                    scores.append(score)
-                except (ValueError, IndexError):
-                    continue  # 跳过无法解析的行
-
-        average_score = sum(scores) / len(scores) if scores else 0  # 避免除零错误
-        return average_score, len(batch)
-    
-    except Exception as e:
-        # multiprocessing에서 예외를 안전하게 전달하기 위해 에러 메시지만 반환
-        print(f"Error in process_batch: {str(e)}")
-        # 기본값 반환 (0점으로 처리)
+        except (APIError, RateLimitError, ServiceUnavailableError, Timeout) as e:
+            wait_time = 2 ** attempt  # exponential backoff
+            print(f"[Retry {attempt+1}/{max_retries}] Error: {type(e).__name__} - waiting {wait_time}s...")
+            time.sleep(wait_time)
+        except Exception as e:
+            print(f"[Fatal Error] {str(e)}")
+            return 0.0, len(batch)
+    else:
+        # 모든 재시도 실패
+        print(f"[Batch Failed] after {max_retries} attempts.")
         return 0.0, len(batch)
+
+    # 점수 추출
+    scores = []
+    for line in evaluation_text.splitlines():
+        if "Score:" in line:
+            try:
+                score = float(line.split(":")[1].strip())
+                scores.append(score)
+            except Exception:
+                continue
+
+    average_score = sum(scores) / len(scores) if scores else 0
+    return average_score, len(batch)
 
 
 def deepseek_chat_final(api_key, path, batch_size=10):
@@ -153,8 +138,8 @@ def deepseek_chat_final(api_key, path, batch_size=10):
         )
 
         for batch_score, batch_total in results:
-            total_score += batch_score * batch_total  # 还原该批次总分
-            total_samples += batch_total
+            total_score += batch_score * batch_total  # 还原该批次总分 
+            total_samples += batch_total 
 
     overall_average_score = total_score / total_samples if total_samples > 0 else 0
     return overall_average_score
@@ -166,9 +151,11 @@ if __name__ == "__main__":
     if args.result_file is not None:
         ans_gt_file = eval_single(args.annotation_file, args.result_file)
 
-        # api_key = "sk-d9e2eec1fa154fa78d4d934bb6bba976"   # deepseek  sk-d9e2eec1fa154fa78d4d934bb6bba976
-        # api_key = "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"  # 여기에 실제 API 키 입력
-        api_key = "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"
+        secrets_path = os.path.expanduser("/home/data/vgilab/jeongeun/.secrets.json")
+        api_key = json.load(open(secrets_path))['api_key']
+
+        if not api_key:
+            raise ValueError("API key not found in secrets.json")
 
         batch_size = 2 
         overall_accuracy = deepseek_chat_final(api_key, ans_gt_file, batch_size=batch_size)

@@ -133,12 +133,16 @@ if __name__ == "__main__":
     if args.result_file is not None:
         ans_gt_file = eval_single(args.annotation_file, args.result_file)
 
-        # api_key = "sk-d9e2eec1fa154fa78d4d934bb6bba976"   # deepseek  sk-d9e2eec1fa154fa78d4d934bb6bba976
+        secrets_path = os.path.expanduser("/home/data/vgilab/jeongeun/.secrets.json")
+        api_key = json.load(open(secrets_path))['api_key']
 
-        # batch_size = 2 
-        # overall_accuracy = deepseek_chat_final(api_key, ans_gt_file, batch_size=batch_size)
-        # print(f"Overall Accuracy: {overall_accuracy*10:.2f}")
-        # if args.output_dir is not None:
-        #     output_file = os.path.join(args.output_dir, 'Result_api.text')
-        #     with open(output_file, 'w') as f:
-        #         f.write('Accuracy: {:.2f}%\n'.format(overall_accuracy*10))
+        if not api_key:
+            raise ValueError("API key not found in secrets.json")
+            
+        batch_size = 2 
+        overall_accuracy = deepseek_chat_final(api_key, ans_gt_file, batch_size=batch_size)
+        print(f"Overall Accuracy: {overall_accuracy*10:.2f}")
+        if args.output_dir is not None:
+            output_file = os.path.join(args.output_dir, 'Result_api.text')
+            with open(output_file, 'w') as f:
+                f.write('Accuracy: {:.2f}%\n'.format(overall_accuracy*10))
