@@ -24,7 +24,7 @@ dependencies = [
     "bitsandbytes==0.43.1",
     "pydantic<2,>=1",
     "markdown2[all]",
-    "numpy==1.26.4",                      # ✅ H100-friendly
+    "numpy==1.26.4",                  
     "scikit-learn==1.2.2",
     "gradio==3.35.2",
     "gradio_client==0.2.9",
@@ -38,11 +38,11 @@ dependencies = [
     "xlsxwriter",
     "einops==0.6.1",
     "einops-exts==0.0.4",
-    "timm==0.9.12",                       # ✅ torch 2.1.0 대응 최신 버전
+    "timm==0.9.12",                  
 ]
 [project.optional-dependencies]
 train = [
-    "deepspeed==0.12.3", 
+    "deepspeed==0.12.6", 
     "ninja",
     "wandb"
 ]
