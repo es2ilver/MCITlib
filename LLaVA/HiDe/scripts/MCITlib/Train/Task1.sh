@@ -67,7 +67,7 @@ deepspeed --include localhost:$GPU_LIST --master_port 25600 llava/train/train_me
     --cur_task $CUR_TASK \
     --num_train_epochs $EPOCH \
     --per_device_train_batch_size $BATCH_SIZE \
-    --per_device_eval_batch_size 16 \
+    --per_device_eval_batch_size 4 \
     --gradient_accumulation_steps $GRAD_ACC \
     --evaluation_strategy "no" \
     --save_strategy "steps" \
