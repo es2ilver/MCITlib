@@ -2,6 +2,7 @@ import os
 import argparse
 import json
 import re
+import tempfile
 from openai import OpenAI
 from multiprocessing import Pool, cpu_count
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
@@ -77,29 +78,50 @@ def merge_captions(pred_file, val_file, output_file):
         json.dump(merged_data, f, indent=4, ensure_ascii=False)
 
 def eval_single(output_file, annotation_file, total):
-    coco = COCO(annotation_file)  # Ground truth JSON file
-    coco_res = coco.loadRes(output_file)  # Prediction JSON file
+    # COCO 클래스가 category_id를 요구하므로 임시로 추가
+    # 원본 annotation 파일 읽기
+    with open(annotation_file, 'r', encoding='utf-8') as f:
+        ann_data = json.load(f)
+    
+    # annotations에 category_id 추가 (caption 형식에는 없지만 COCO 클래스가 요구함)
+    if 'annotations' in ann_data:
+        for ann in ann_data['annotations']:
+            if 'category_id' not in ann:
+                ann['category_id'] = 1  # 더미 값 (caption 태스크에서는 의미 없음)
+    
+    # 임시 파일에 저장
+    temp_file = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False, encoding='utf-8')
+    json.dump(ann_data, temp_file, ensure_ascii=False)
+    temp_file.close()
+    
+    try:
+        coco = COCO(temp_file.name)  # 수정된 annotation 파일 사용
+        coco_res = coco.loadRes(output_file)  # Prediction JSON file
 
-    coco_eval = COCOEvalCap(coco, coco_res)
+        coco_eval = COCOEvalCap(coco, coco_res)
 
-    coco_eval.evaluate()
+        coco_eval.evaluate()
 
-    metrics_to_print = ["Bleu_1", "Bleu_2", "Bleu_3", "Bleu_4", "METEOR", "ROUGE_L", "CIDEr"]
-    results = []
-    for metric, score in coco_eval.eval.items():
-        if metric in metrics_to_print:
-            score_percentage = score * 100.
-            print(f"{metric}: {score_percentage:.2f}")
-            results.append(score_percentage)
-        
+        metrics_to_print = ["Bleu_1", "Bleu_2", "Bleu_3", "Bleu_4", "METEOR", "ROUGE_L", "CIDEr"]
+        results = []
+        for metric, score in coco_eval.eval.items():
+            if metric in metrics_to_print:
+                score_percentage = score * 100.
+                print(f"{metric}: {score_percentage:.2f}")
+                results.append(score_percentage)
+            
 
-    print('Samples: {}\nAverage: {:.2f}%\n'.format(total, sum(results) / len(results)))
-    #将结果写入文件
-    if args.output_dir is not None:
-        output_file = os.path.join(args.output_dir, 'Result.text')
-        with open(output_file, 'w') as f:
-            f.write('Samples: {}\nBleu_1: {:.2f}\nBleu_2: {:.2f}\nBleu_3: {:.2f}\nBleu_4: {:.2f}\nMETEOR: {:.2f}\nROUGE_L: {:.2f}\nCIDEr: {:.2f}\nAverage: {:.2f}\n'.format(
-                total, results[0], results[1], results[2], results[3], results[4], results[5], results[6], sum(results) / len(results)))
+        print('Samples: {}\nAverage: {:.2f}%\n'.format(total, sum(results) / len(results)))
+        #将结果写入文件
+        if args.output_dir is not None:
+            output_file = os.path.join(args.output_dir, 'Result.text')
+            with open(output_file, 'w') as f:
+                f.write('Samples: {}\nBleu_1: {:.2f}\nBleu_2: {:.2f}\nBleu_3: {:.2f}\nBleu_4: {:.2f}\nMETEOR: {:.2f}\nROUGE_L: {:.2f}\nCIDEr: {:.2f}\nAverage: {:.2f}\n'.format(
+                    total, results[0], results[1], results[2], results[3], results[4], results[5], results[6], sum(results) / len(results)))
+    finally:
+        # 임시 파일 삭제
+        if os.path.exists(temp_file.name):
+            os.unlink(temp_file.name)
     
 
 def process_batch(api_key, batch):
