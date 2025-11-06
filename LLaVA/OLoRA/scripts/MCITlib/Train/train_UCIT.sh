@@ -1,6 +1,7 @@
 #!/bin/bash
 
-HARD_PATH=/mnt/haiyangguo/mywork/CL-MLLM/MCITlib_v2
+# HARD_PATH=/mnt/haiyangguo/mywork/CL-MLLM/MCITlib_v2
+HARD_PATH=/home/data/vgilab/jeongeun/MCITlib
 
 pip install -e .
 bash scripts/MCITlib/Train/Task1.sh \
