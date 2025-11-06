@@ -52,7 +52,8 @@ deepspeed --include localhost:$GPU_LIST --master_port 25600 llava/train/train_me
     --mm_use_im_patch_token False \
     --image_aspect_ratio pad \
     --group_by_modality_length True \
-    --bf16 True \
+    --bf16 False \
+    --fp16 True \
     --output_dir $OUTPUT_DIR \
     --cur_task $CUR_TASK \
     --num_train_epochs $EPOCH \
