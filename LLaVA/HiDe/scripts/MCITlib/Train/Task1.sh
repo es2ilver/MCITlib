@@ -28,19 +28,13 @@ BATCH_SIZE=$(read_config "$TRAIN_CONFIG" batch_size)
 GRAD_ACC=$(read_config "$TRAIN_CONFIG" grad_acc)
 LR=$(read_config "$TRAIN_CONFIG" lr)
 
-GPU_LIST=""
-for i in $(seq 0 $((GPU_NUM-1))); do
-    GPU_LIST+="$i,"
-done
-GPU_LIST=${GPU_LIST%,}
-
 ################## LLaMA-2 ##################
 # PROMPT_VERSION="llava_llama_2"
 # MODEL_VERSION="Llama-2-7b-chat-hf"
 ################## LLaMA-2 ##################
 
-# deepspeed --include localhost:$GPU_LIST --master_port 24600 llava/train/train_mem_MOE.py \
-deepspeed --num_gpus $GPU_NUM --master_port 24600 llava/train/train_mem_MOE.py \
+GPU_LIST="4,5,6,7"
+deepspeed --include localhost:$GPU_LIST --master_port 24600 llava/train/train_mem_MOE.py \
     --deepspeed ./scripts/zero2.json \
     --lora_enable True --lora_r $RANK --lora_alpha $((RANK * 2)) --mm_projector_lr 2e-5 \
     --expert_num $EXPERT \
