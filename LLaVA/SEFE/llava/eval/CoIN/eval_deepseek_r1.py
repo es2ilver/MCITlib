@@ -74,47 +74,65 @@ def process_batch(api_key, batch):
         "\n".join([f"{i+1}. Model Response: {item['pred']}\n   Ground Truth: {item['ground_truth']}" for i, item in enumerate(batch)])
     )
 
-    client = OpenAI(api_key=api_key)
-
-    payload = dict(
-        model='gpt-5-mini',
-        instructions="You are an AI assistant evaluating the semantic similarity of responses.",
-        input=[{
-            "role": "user",
-            "content": [
-                {"type": "input_text", "text": user_text}
-            ]
-        }]
-    )
-
     try:
-        resp = client.responses.create(**payload)
-        evaluation_text = resp.output[0].content if hasattr(resp, 'output') and resp.output else resp.choices[0].message.content
-    except AttributeError:
-        # Fallback to old API format if responses.create doesn't exist
-        response = client.chat.completions.create(
-            model='gpt-5-mini',
-            messages=[
-                {"role": "system", "content": "You are an AI assistant evaluating the semantic similarity of responses."},
-                {"role": "user", "content": user_text},
-            ],
-            stream=False
-        )
-        evaluation_text = response.choices[0].message.content
+        client = OpenAI(api_key=api_key)
 
-    # 提取 "Score: X" 形式的数值
-    scores = []
-    for line in evaluation_text.splitlines():
-        if "Score:" in line:
+        # Try new API format first if it exists
+        if hasattr(client, 'responses') and hasattr(client.responses, 'create'):
             try:
-                score = float(line.split(":")[1].strip())
-                scores.append(score)
-            except ValueError:
-                continue  # 跳过无法解析的行
+                payload = dict(
+                    model='gpt-5-mini',
+                    instructions="You are an AI assistant evaluating the semantic similarity of responses.",
+                    input=[{
+                        "role": "user",
+                        "content": [
+                            {"type": "input_text", "text": user_text}
+                        ]
+                    }]
+                )
+                resp = client.responses.create(**payload)
+                evaluation_text = resp.output[0].content if hasattr(resp, 'output') and resp.output else resp.choices[0].message.content
+            except Exception:
+                # If new API fails, fallback to standard API
+                response = client.chat.completions.create(
+                    model='gpt-5-mini',
+                    messages=[
+                        {"role": "system", "content": "You are an AI assistant evaluating the semantic similarity of responses."},
+                        {"role": "user", "content": user_text},
+                    ],
+                    stream=False
+                )
+                evaluation_text = response.choices[0].message.content
+        else:
+            # Use standard chat.completions API
+            response = client.chat.completions.create(
+                model='gpt-5-mini',
+                messages=[
+                    {"role": "system", "content": "You are an AI assistant evaluating the semantic similarity of responses."},
+                    {"role": "user", "content": user_text},
+                ],
+                stream=False
+            )
+            evaluation_text = response.choices[0].message.content
 
-    average_score = sum(scores) / len(scores) if scores else 0  # 避免除零错误
+        # 提取 "Score: X" 形式的数值
+        scores = []
+        for line in evaluation_text.splitlines():
+            if "Score:" in line:
+                try:
+                    score = float(line.split(":")[1].strip())
+                    scores.append(score)
+                except (ValueError, IndexError):
+                    continue  # 跳过无法解析的行
 
-    return average_score, len(batch)
+        average_score = sum(scores) / len(scores) if scores else 0  # 避免除零错误
+        return average_score, len(batch)
+    
+    except Exception as e:
+        # multiprocessing에서 예외를 안전하게 전달하기 위해 에러 메시지만 반환
+        print(f"Error in process_batch: {str(e)}")
+        # 기본값 반환 (0점으로 처리)
+        return 0.0, len(batch)
 
 
 def deepseek_chat_final(api_key, path, batch_size=10):
@@ -149,7 +167,8 @@ if __name__ == "__main__":
         ans_gt_file = eval_single(args.annotation_file, args.result_file)
 
         # api_key = "sk-d9e2eec1fa154fa78d4d934bb6bba976"   # deepseek  sk-d9e2eec1fa154fa78d4d934bb6bba976
-        api_key = "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"  # 여기에 실제 API 키 입력
+        # api_key = "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"  # 여기에 실제 API 키 입력
+        api_key = "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"
 
         batch_size = 2 
         overall_accuracy = deepseek_chat_final(api_key, ans_gt_file, batch_size=batch_size)
