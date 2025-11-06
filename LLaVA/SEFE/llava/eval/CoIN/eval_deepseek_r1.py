@@ -4,7 +4,7 @@ import json
 import re
 import time
 from openai import OpenAI
-from openai.error import APIError, RateLimitError, ServiceUnavailableError, Timeout
+from openai import APIError, RateLimitError, APIConnectionError, APITimeoutError
 from multiprocessing import Pool, cpu_count
 
 
@@ -94,7 +94,7 @@ def process_batch(api_key, batch, max_retries=5):
                 evaluation_text = resp.choices[0].message.content
             break  # 성공 시 루프 탈출
 
-        except (APIError, RateLimitError, ServiceUnavailableError, Timeout) as e:
+        except (APIError, RateLimitError, APIConnectionError, APITimeoutError) as e:
             wait_time = 2 ** attempt  # exponential backoff
             print(f"[Retry {attempt+1}/{max_retries}] Error: {type(e).__name__} - waiting {wait_time}s...")
             time.sleep(wait_time)

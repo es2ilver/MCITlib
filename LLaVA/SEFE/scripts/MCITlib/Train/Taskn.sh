@@ -50,6 +50,7 @@ python key_elements_identification.py $ID $KEY_PATH $BASE_MODEL
 ORIGINAL_PATH="${PREVIOUS%_merged}"
 REG_PATH="${ORIGINAL_PATH}_topP.pth"
 
+# Train
 deepspeed --include localhost:$GPU_LIST --master_port 9001 llava/train/train_mem.py \
     --lora_enable True --lora_r $RANK --lora_alpha $((RANK * 2)) --mm_projector_lr 2e-5 \
     --regularization_info_path $REG_PATH \
@@ -86,8 +87,7 @@ deepspeed --include localhost:$GPU_LIST --master_port 9001 llava/train/train_mem
     --lazy_preprocess True \
     --report_to none
 
-pip install transformers==4.37.2
-
+# Merge lora weights
 SAVE_PATH="${OUTPUT_DIR}_merged"
 python scripts/merge_lora_weights.py \
     --model-path $OUTPUT_DIR \

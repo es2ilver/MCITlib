@@ -44,7 +44,7 @@ GPU_LIST=${GPU_LIST%,}
 ################## LLaMA-2 ##################
 
 # Train
-deepspeed --include localhost:$GPU_LIST --master_port 9001 llava/train/train_mem.py \
+deepspeed --include localhost:$GPU_LIST --master_port 24600 llava/train/train_mem.py \
     --lora_enable True --lora_r $RANK --lora_alpha $((RANK * 2)) --mm_projector_lr 2e-5 \
     --deepspeed ./scripts/zero2.json \
     --model_name_or_path $MODEL_NAME \
