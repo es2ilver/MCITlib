@@ -28,17 +28,7 @@ BATCH_SIZE=$(read_config "$TRAIN_CONFIG" batch_size)
 GRAD_ACC=$(read_config "$TRAIN_CONFIG" grad_acc)
 LR=$(read_config "$TRAIN_CONFIG" lr)
 
-# GPU_LIST=""
-# for i in $(seq 0 $((GPU_NUM-1))); do
-#     GPU_LIST+="$i,"
-# done
-# GPU_LIST=${GPU_LIST%,}
-GPU_START=4  # GPU 시작 번호: 4~7
-GPU_LIST=""
-for i in $(seq $GPU_START $((GPU_START + GPU_NUM - 1))); do
-    GPU_LIST+="$i,"
-done
-GPU_LIST=${GPU_LIST%,}
+GPU_LIST="4,5,6,7"
 
 ################## LLaMA-2 ##################
 # PROMPT_VERSION="llava_llama_2"
@@ -67,7 +57,7 @@ deepspeed --include localhost:$GPU_LIST --master_port 25600 llava/train/train_me
     --cur_task $CUR_TASK \
     --num_train_epochs $EPOCH \
     --per_device_train_batch_size $BATCH_SIZE \
-    --per_device_eval_batch_size 4 \
+    --per_device_eval_batch_size 16 \
     --gradient_accumulation_steps $GRAD_ACC \
     --evaluation_strategy "no" \
     --save_strategy "steps" \
