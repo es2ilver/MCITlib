@@ -33,6 +33,8 @@ LR=$(read_config "$TRAIN_CONFIG" lr)
 # MODEL_VERSION="Llama-2-7b-chat-hf"
 ################## LLaMA-2 ##################
 
+export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:256
+
 GPU_LIST="4,5,6,7"
 deepspeed --include localhost:$GPU_LIST --master_port 24600 llava/train/train_mem_MOE.py \
     --deepspeed ./scripts/zero2.json \
@@ -51,8 +53,7 @@ deepspeed --include localhost:$GPU_LIST --master_port 24600 llava/train/train_me
     --mm_use_im_patch_token False \
     --image_aspect_ratio pad \
     --group_by_modality_length True \
-    --bf16 False \
-    --fp16 True \
+    --bf16 True \
     --output_dir $OUTPUT_DIR \
     --cur_task $CUR_TASK \
     --num_train_epochs $EPOCH \
@@ -69,7 +70,7 @@ deepspeed --include localhost:$GPU_LIST --master_port 24600 llava/train/train_me
     --logging_steps 1 \
     --tf32 True \
     --model_max_length 2048 \
-    --gradient_checkpointing True \
+    --gradient_checkpointing False \
     --dataloader_num_workers 4 \
     --lazy_preprocess True \
     --report_to none
