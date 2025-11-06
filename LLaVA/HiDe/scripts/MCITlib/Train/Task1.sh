@@ -37,7 +37,7 @@ export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:256
 
 GPU_LIST="4,5,6,7"
 deepspeed --include localhost:$GPU_LIST --master_port 24600 llava/train/train_mem_MOE.py \
-    --deepspeed ./scripts/zero1.json \
+    --deepspeed ./scripts/zero2.json \
     --lora_enable True --lora_r $RANK --lora_alpha $((RANK * 2)) --mm_projector_lr 2e-5 \
     --expert_num $EXPERT \
     --model_name_or_path $MODEL_NAME \
