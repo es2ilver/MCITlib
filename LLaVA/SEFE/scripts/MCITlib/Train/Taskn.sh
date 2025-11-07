@@ -1,7 +1,5 @@
 #!/bin/bash
 
-pip install transformers==4.37.2
-
 ################## VICUNA ##################
 PROMPT_VERSION=v1
 MODEL_VERSION="vicuna-7b-v1.5"
@@ -31,8 +29,12 @@ BATCH_SIZE=$(read_config "$TRAIN_CONFIG" batch_size)
 GRAD_ACC=$(read_config "$TRAIN_CONFIG" grad_acc)
 LR=$(read_config "$TRAIN_CONFIG" lr)
 
+# 🌟 시작 번호를 4로 명시적으로 설정
+GPU_START=4
+GPU_END=$((GPU_START + GPU_NUM - 1)) # GPU_NUM=4라면, GPU_END는 7이 됩니다.
+
 GPU_LIST=""
-for i in $(seq 0 $((GPU_NUM-1))); do
+for i in $(seq $GPU_START $GPU_END); do
     GPU_LIST+="$i,"
 done
 GPU_LIST=${GPU_LIST%,}
@@ -81,8 +83,6 @@ deepspeed --include localhost:$GPU_LIST --master_port 9008 llava/train/train_mem
     --dataloader_num_workers 4 \
     --lazy_preprocess True \
     --report_to none
-
-pip install transformers==4.37.2
 
 SAVE_PATH="${OUTPUT_DIR}_merged"
 python scripts/merge_lora_weights.py \
