@@ -155,7 +155,12 @@ def process_batch(api_key, batch):
                     }]
                 )
                 resp = client.responses.create(**payload)
-                evaluation_text = resp.output[0].content if hasattr(resp, 'output') and resp.output else resp.choices[0].message.content
+                # evaluation_text = resp.output[0].content if hasattr(resp, 'output') and resp.output else resp.choices[0].message.content
+                # 158번째 줄 수정:
+                if hasattr(resp, "output") and resp.output:
+                    evaluation_text = resp.output[0].content[0].text  # eval_deepseek_r1.py와 동일
+                else:
+                    evaluation_text = resp.choices[0].message.content
             except Exception:
                 # If new API fails, fallback to standard API
                 response = client.chat.completions.create(
