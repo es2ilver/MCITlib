@@ -28,24 +28,35 @@ BATCH_SIZE=$(read_config "$TRAIN_CONFIG" batch_size)
 GRAD_ACC=$(read_config "$TRAIN_CONFIG" grad_acc)
 LR=$(read_config "$TRAIN_CONFIG" lr)
 
-# GPU_LIST=""
-# for i in $(seq 0 $((GPU_NUM-1))); do
-#     GPU_LIST+="$i,"
-# done
-# GPU_LIST=${GPU_LIST%,}
-GPU_START=4  # GPU 시작 번호: 4~7
-GPU_LIST=""
-for i in $(seq $GPU_START $((GPU_START + GPU_NUM - 1))); do
-    GPU_LIST+="$i,"
-done
-GPU_LIST=${GPU_LIST%,}
+# 원하는 GPU 리스트를 환경변수나 인자로 받음
+# 우선순위: 4번째 인자 > 환경변수 CUDA_VISIBLE_DEVICES > GPU_NUM 기반 자동 생성
+if [ -n "$4" ]; then
+    GPU_LIST=$4
+elif [ -n "$CUDA_VISIBLE_DEVICES" ]; then
+    GPU_LIST=$CUDA_VISIBLE_DEVICES
+else
+    GPU_START=4  # GPU 시작 번호: 4~7
+    GPU_LIST=""
+    for i in $(seq $GPU_START $((GPU_START + GPU_NUM - 1))); do
+        GPU_LIST+="$i,"
+    done
+    GPU_LIST=${GPU_LIST%,}
+fi
+MASTER_PORT=9002
+
+echo "[INFO] Using GPUs: $GPU_LIST"
+
+# CUDA_VISIBLE_DEVICES를 설정하여 특정 GPU만 사용
+export CUDA_VISIBLE_DEVICES=$GPU_LIST
 
 ################## LLaMA-2 ##################
 # PROMPT_VERSION="llava_llama_2"
 # MODEL_VERSION="Llama-2-7b-chat-hf"
 ################## LLaMA-2 ##################
 
-deepspeed --include localhost:$GPU_LIST --master_port 9002 llava/train/train_mem_MOE.py \
+# DeepSpeed는 CUDA_VISIBLE_DEVICES를 자동으로 인식하므로 --include 옵션 제거
+# GPU 개수는 config에서 가져온 GPU_NUM 사용
+deepspeed --num_gpus $GPU_NUM --master_port $MASTER_PORT llava/train/train_mem_MOE.py \
     --deepspeed ./scripts/zero2.json \
     --lora_enable True --lora_r $RANK --lora_alpha $((RANK * 2)) --mm_projector_lr 2e-5 \
     --expert_num $EXPERT \

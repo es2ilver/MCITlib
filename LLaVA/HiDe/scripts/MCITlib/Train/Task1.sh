@@ -35,12 +35,24 @@ LR=$(read_config "$TRAIN_CONFIG" lr)
 
 
 # 원하는 GPU 리스트를 환경변수나 인자로 받음
-GPU_LIST=${4:-"0,1,2,3"}
+# 우선순위: 4번째 인자 > 환경변수 CUDA_VISIBLE_DEVICES > 기본값
+if [ -n "$4" ]; then
+    GPU_LIST=$4
+elif [ -n "$CUDA_VISIBLE_DEVICES" ]; then
+    GPU_LIST=$CUDA_VISIBLE_DEVICES
+else
+    GPU_LIST="0,1,2,3"
+fi
 MASTER_PORT=24600
 
 echo "[INFO] Using GPUs: $GPU_LIST"
 
-deepspeed --include localhost:$GPU_LIST --master_port $MASTER_PORT llava/train/train_mem_MOE.py \
+# CUDA_VISIBLE_DEVICES를 설정하여 특정 GPU만 사용
+export CUDA_VISIBLE_DEVICES=$GPU_LIST
+
+# DeepSpeed는 CUDA_VISIBLE_DEVICES를 자동으로 인식하므로 --include 옵션 제거
+# GPU 개수는 config에서 가져온 GPU_NUM 사용
+deepspeed --num_gpus $GPU_NUM --master_port $MASTER_PORT llava/train/train_mem_MOE.py \
     --deepspeed ./scripts/zero2.json \
     --lora_enable True --lora_r $RANK --lora_alpha $((RANK * 2)) --mm_projector_lr 2e-5 \
     --expert_num $EXPERT \
