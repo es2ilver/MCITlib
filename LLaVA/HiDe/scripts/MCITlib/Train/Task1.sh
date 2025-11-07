@@ -33,22 +33,14 @@ LR=$(read_config "$TRAIN_CONFIG" lr)
 # MODEL_VERSION="Llama-2-7b-chat-hf"
 ################## LLaMA-2 ##################
 
-# GPU 리스트 생성
-if [ -z "$CUDA_VISIBLE_DEVICES" ]; then
-    # 환경변수가 비어 있으면, 0 ~ (GPU_NUM-1) 사용
-    GPU_LIST=""
-    for i in $(seq 0 $(($GPU_NUM-1))); do
-        GPU_LIST+="$i,"
-    done
-    GPU_LIST=${GPU_LIST%,}
-    DS_CMD="deepspeed --include localhost:$GPU_LIST"
-else
-    # 환경변수가 이미 설정되어 있으면, DeepSpeed는 자동으로 0~N-1로 인식
-    DS_CMD="deepspeed"
-fi
 
-# 최종 실행
-$DS_CMD --master_port 24600 llava/train/train_mem_MOE.py \
+# 원하는 GPU 리스트를 환경변수나 인자로 받음
+GPU_LIST=${4:-"0,1,2,3"}
+MASTER_PORT=24600
+
+echo "[INFO] Using GPUs: $GPU_LIST"
+
+deepspeed --include localhost:$GPU_LIST --master_port $MASTER_PORT llava/train/train_mem_MOE.py \
     --deepspeed ./scripts/zero2.json \
     --lora_enable True --lora_r $RANK --lora_alpha $((RANK * 2)) --mm_projector_lr 2e-5 \
     --expert_num $EXPERT \
