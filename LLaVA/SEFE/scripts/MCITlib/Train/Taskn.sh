@@ -1,5 +1,7 @@
 #!/bin/bash
 
+pip install transformers==4.37.2
+
 ################## VICUNA ##################
 PROMPT_VERSION=v1
 MODEL_VERSION="vicuna-7b-v1.5"
@@ -29,14 +31,8 @@ BATCH_SIZE=$(read_config "$TRAIN_CONFIG" batch_size)
 GRAD_ACC=$(read_config "$TRAIN_CONFIG" grad_acc)
 LR=$(read_config "$TRAIN_CONFIG" lr)
 
-# GPU_LIST=""
-# for i in $(seq 0 $((GPU_NUM-1))); do
-#     GPU_LIST+="$i,"
-# done
-# GPU_LIST=${GPU_LIST%,}
-GPU_START=0  # GPU 시작 번호: 0~3
 GPU_LIST=""
-for i in $(seq $GPU_START $((GPU_START + GPU_NUM - 1))); do
+for i in $(seq 0 $((GPU_NUM-1))); do
     GPU_LIST+="$i,"
 done
 GPU_LIST=${GPU_LIST%,}
@@ -50,8 +46,7 @@ python key_elements_identification.py $ID $KEY_PATH $BASE_MODEL
 ORIGINAL_PATH="${PREVIOUS%_merged}"
 REG_PATH="${ORIGINAL_PATH}_topP.pth"
 
-# Train
-deepspeed --include localhost:$GPU_LIST --master_port 9001 llava/train/train_mem.py \
+deepspeed --include localhost:$GPU_LIST --master_port 9008 llava/train/train_mem.py \
     --lora_enable True --lora_r $RANK --lora_alpha $((RANK * 2)) --mm_projector_lr 2e-5 \
     --regularization_info_path $REG_PATH \
     --deepspeed ./scripts/zero2.json \
@@ -87,7 +82,8 @@ deepspeed --include localhost:$GPU_LIST --master_port 9001 llava/train/train_mem
     --lazy_preprocess True \
     --report_to none
 
-# Merge lora weights
+pip install transformers==4.37.2
+
 SAVE_PATH="${OUTPUT_DIR}_merged"
 python scripts/merge_lora_weights.py \
     --model-path $OUTPUT_DIR \

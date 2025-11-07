@@ -2,12 +2,12 @@
 
 HARD_PATH=/home/data/vgilab/jeongeun/MCITlib
 
-pip install -e .
-bash scripts/MCITlib/Train/Task1.sh \
-    /home/data/vgilab/jeongeun/MCITlib/configs/modal_configs/llava.json \
-    /home/data/vgilab/jeongeun/MCITlib/configs/data_configs/UCIT/ImageNet-R.json \
-    /home/data/vgilab/jeongeun/MCITlib/configs/train_configs/HiDe/LLaVA/UCIT/train/task1.json
-bash scripts/MCITlib/Eval_UCIT/Eval_finetune1.sh 1
+# pip install -e .
+# bash scripts/MCITlib/Train/Task1.sh \
+#     /home/data/vgilab/jeongeun/MCITlib/configs/modal_configs/llava.json \
+#     /home/data/vgilab/jeongeun/MCITlib/configs/data_configs/UCIT/ImageNet-R.json \
+#     /home/data/vgilab/jeongeun/MCITlib/configs/train_configs/HiDe/LLaVA/UCIT/train/task1.json
+# bash scripts/MCITlib/Eval_UCIT/Eval_finetune1.sh 1
 
 pip install -e .
 bash scripts/MCITlib/Train/Taskn.sh \
