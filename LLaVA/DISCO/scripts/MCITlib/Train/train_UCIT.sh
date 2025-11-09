@@ -2,8 +2,8 @@
 
 HARD_PATH=/home/data/vgilab/jeongeun/MCITlib
 
-pip install -e .
-pip install -e .[train]
+# pip install -e .
+# pip install -e .[train]
 
 bash scripts/MCITlib/Train/Task1.sh \
     $HARD_PATH/configs/modal_configs/llava.json \
