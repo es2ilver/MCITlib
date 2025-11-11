@@ -11,17 +11,78 @@ import warnings
 from types import MethodType
 from typing import Any, Dict, List, Optional, Tuple, Union
 import torch
-from transformers.models.bloom.modeling_bloom import BaseModelOutputWithPastAndCrossAttentions, BloomForCausalLM, BloomModel, CausalLMOutputWithCrossAttentions, CrossEntropyLoss
-from transformers.models.bloom.modeling_bloom import _expand_mask as _expand_mask_bloom
-from transformers.models.bloom.modeling_bloom import _make_causal_mask as _make_causal_mask_bloom
+from transformers.models.bloom.modeling_bloom import (
+    BaseModelOutputWithPastAndCrossAttentions, BloomForCausalLM, BloomModel, CausalLMOutputWithCrossAttentions, CrossEntropyLoss
+)
+try:
+    # old versions (<=4.38)
+    from transformers.models.bloom.modeling_bloom import _expand_mask as _expand_mask_bloom
+    from transformers.models.bloom.modeling_bloom import _make_causal_mask as _make_causal_mask_bloom
+except ImportError:
+    # newer versions (>=4.39)
+    from transformers.modeling_attn_mask_utils import _prepare_4d_attention_mask
+    
+    def _expand_mask_bloom(mask, tgt_length=None, dtype=None):
+        """
+        Backward-compatible wrapper for Hugging Face's _expand_mask.
+        Works across transformers>=4.39.
+        """
+        batch_size, src_len = mask.shape
+        tgt_len = tgt_length if tgt_length is not None else src_len
+        input_shape = (batch_size, tgt_len)
+        # bloom은 bool 반환, dtype이 없으면 bool 사용
+        if dtype is None:
+            dtype = torch.bool
+        result = _prepare_4d_attention_mask(
+            mask, input_shape, dtype=dtype, device=mask.device
+        )
+        return result.to(torch.bool)  # bloom은 bool 반환
+    
+    def _make_causal_mask_bloom(input_shape: Tuple[int, int], device: torch.device, past_key_values_length: int = 0):
+        """Makes causal mask used for bi-directional self-attention."""
+        from transformers.modeling_attn_mask_utils import _prepare_4d_causal_attention_mask
+        bsz, tgt_len = input_shape
+        # _prepare_4d_causal_attention_mask는 (batch_size, seq_length) 형태의 input_shape를 받음
+        mask = _prepare_4d_causal_attention_mask(
+            None, (bsz, tgt_len), device=device, dtype=torch.bool, past_key_values_length=past_key_values_length
+        )
+        return mask
+
 from transformers.models.bloom.modeling_bloom import logging
 from transformers.models.gpt2.modeling_gpt2 import GPT2LMHeadModel
 from transformers.models.gpt_neo.modeling_gpt_neo import GPTNeoForCausalLM
 from transformers.models.gpt_neox.modeling_gpt_neox import GPTNeoXForCausalLM
 from transformers.models.gptj.modeling_gptj import GPTJForCausalLM
 from transformers.models.opt.modeling_opt import OPTForCausalLM
-from transformers.models.opt.modeling_opt import _expand_mask as _expand_mask_opt
-from transformers.models.opt.modeling_opt import _make_causal_mask as _make_causal_mask_opt
+
+try:
+    # old versions (<=4.38)
+    from transformers.models.opt.modeling_opt import _expand_mask as _expand_mask_opt
+    from transformers.models.opt.modeling_opt import _make_causal_mask as _make_causal_mask_opt
+except ImportError:
+    # newer versions (>=4.39)
+    from transformers.modeling_attn_mask_utils import _prepare_4d_attention_mask
+    
+    def _expand_mask_opt(mask, dtype, tgt_len=None):
+        """
+        Backward-compatible wrapper for Hugging Face's _expand_mask.
+        Works across transformers>=4.39.
+        """
+        batch_size, src_len = mask.shape
+        tgt_length = tgt_len if tgt_len is not None else src_len
+        input_shape = (batch_size, tgt_length)
+        return _prepare_4d_attention_mask(
+            mask, input_shape, dtype=dtype, device=mask.device
+        )
+    
+    def _make_causal_mask_opt(input_shape: Tuple[int, int], dtype: torch.dtype, past_key_values_length: int = 0):
+        """Makes causal mask used for bi-directional self-attention."""
+        from transformers.modeling_attn_mask_utils import _prepare_4d_causal_attention_mask
+        bsz, tgt_len = input_shape
+        mask = _prepare_4d_causal_attention_mask(
+            None, (bsz, tgt_len), dtype=dtype, past_key_values_length=past_key_values_length
+        )
+        return mask
 logger = logging.get_logger(__name__)
 _SUPPORTED_GPT_MODELS = (GPT2LMHeadModel, GPTJForCausalLM, GPTNeoForCausalLM, GPTNeoXForCausalLM)
 CAUSAL_GPT_TYPES = Union[GPT2LMHeadModel, GPTJForCausalLM, GPTNeoForCausalLM, GPTNeoXForCausalLM]
