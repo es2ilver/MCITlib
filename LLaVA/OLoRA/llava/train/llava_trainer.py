@@ -271,9 +271,9 @@ class LLaVATrainer(Trainer):
         if self.args.n_gpu > 1:
             loss = loss.mean()  # mean() to average on multi-gpu parallel training
 
-        if self.do_grad_scaling:
+        if hasattr(self, 'do_grad_scaling') and self.do_grad_scaling:
             self.scaler.scale(loss).backward()
-        elif self.use_apex:
+        elif hasattr(self, 'use_apex') and self.use_apex:
             with amp.scale_loss(loss, self.optimizer) as scaled_loss:
                 scaled_loss.backward()
         else:
