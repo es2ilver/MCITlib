@@ -30,7 +30,8 @@ LR=$(read_config "$TRAIN_CONFIG" lr)
 GRAD_CKPT=$(read_config "$TRAIN_CONFIG" gradient_checkpointing)
 
 GPU_LIST=""
-for i in $(seq 0 $((GPU_NUM-1))); do
+START_GPU=4 # GPU 4번부터 시작
+for i in $(seq $START_GPU $((START_GPU+GPU_NUM-1))); do
     GPU_LIST+="$i,"
 done
 GPU_LIST=${GPU_LIST%,}
