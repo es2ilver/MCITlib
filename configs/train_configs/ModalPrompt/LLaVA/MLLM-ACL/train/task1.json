@@ -1,6 +1,6 @@
 {
   "gpu_num": 4,
-  "output_dir": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoint/MLLM-ACL/LLaVA-1.5/ModalPrompt/Task1_llava",
+  "output_dir": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoints/MLLM-ACL/LLaVA-1.5/ModalPrompt/Task1_llava",
   "prefix_len": 20,
   "num_tasks": 4,
   "cur_task": 1,

@@ -1,6 +1,6 @@
 {
   "gpu_num": 4,
   "stage": "MoELoRA-task2",
-  "model_path": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoint/MLLM-DCL/LLaVA-1.5/MoELoRA/Task2_llava_lora",
+  "model_path": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoints/MLLM-DCL/LLaVA-1.5/MoELoRA/Task2_llava_lora",
   "result_path": "./results/DCL/each_dataset"
 }

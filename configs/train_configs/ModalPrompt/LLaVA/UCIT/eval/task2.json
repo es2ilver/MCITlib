@@ -1,7 +1,7 @@
 {
   "gpu_num": 4,
   "stage": "ModalPrompt-task2",
-  "model_path": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoint/UCIT/LLaVA-1.5/ModalPrompt/Task2_llava",
+  "model_path": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoints/UCIT/LLaVA-1.5/ModalPrompt/Task2_llava",
   "result_path": "./results/UCIT/each_dataset",
   "text_tower": "/mnt/ShareDB_6TB/models/clip-vit-large-patch14-336",
   "prefix_len": 10,

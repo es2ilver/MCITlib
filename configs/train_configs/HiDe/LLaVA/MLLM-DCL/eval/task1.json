@@ -1,7 +1,7 @@
 {
   "gpu_num": 4,
   "stage": "HiDe-task1",
-  "model_path": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoint/MLLM-DCL/LLaVA-1.5/HiDe/Task1_llava_lora",
+  "model_path": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoints/MLLM-DCL/LLaVA-1.5/HiDe/Task1_llava_lora",
   "result_path": "./results/DCL/each_dataset",
   "text_tower": "/mnt/ShareDB_6TB/models/clip-vit-large-patch14-336",
   "num_task": 5

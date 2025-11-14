@@ -1,6 +1,6 @@
 {
   "gpu_num": 4,
   "stage": "MoELoRA-task1",
-  "model_path": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoint/MLLM-ACL/InternVL/MoELoRA/Task1_internvl_lora",
+  "model_path": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoints/MLLM-ACL/InternVL/MoELoRA/Task1_internvl_lora",
   "result_path": "./results/ACL/each_dataset"
 }

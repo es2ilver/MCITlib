@@ -1,7 +1,7 @@
 {
   "gpu_num": 4,
   "rank": 16,
-  "output_dir": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoint/UCIT/InternVL/SEFE/Task1_internvl_lora",
+  "output_dir": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoints/UCIT/InternVL/SEFE/Task1_internvl_lora",
   "epoch": 1,
   "batch_size": 16,
   "grad_acc": 2,

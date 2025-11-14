@@ -2,7 +2,7 @@
   "gpu_num": 4,
   "rank": 160,
   "expert_num": 5,
-  "output_dir": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoint/MLLM-DCL/InternVL/HiDe/Task1_internvl_lora",
+  "output_dir": "/mnt/ShareDB_6TB/datasets/MLLM_CL/checkpoints/MLLM-DCL/InternVL/HiDe/Task1_internvl_lora",
   "cur_task": 0,
   "epoch": 1,
   "batch_size": 8,
