@@ -800,7 +800,8 @@ def load_model_from_previous_task(model, previous_task_model_path):
     from peft import PeftModel
     print('Loading LoRA weights...')
     filename = os.path.join(previous_task_model_path, WEIGHTS_NAME)
-    adapters_weights = torch.load(filename, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+    # adapters_weights = torch.load(filename, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+    adapters_weights = torch.load(filename, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"), weights_only=True)
     load_result = set_peft_model_state_dict(model, adapters_weights, adapter_name="default")
     print('Model is loaded...')
 
