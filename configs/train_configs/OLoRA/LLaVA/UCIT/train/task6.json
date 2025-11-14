@@ -9,5 +9,5 @@
   "grad_acc": 2,
   "lr": 2e-4,
   "cur_task": 5,
-  "gradient_checkpointing": "False"
+  "gradient_checkpointing": "True"
 }
