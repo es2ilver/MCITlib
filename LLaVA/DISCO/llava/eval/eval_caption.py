@@ -176,6 +176,20 @@ if __name__ == "__main__":
         merge_captions(output_file, args.annotation_file, ans_gt_file)
         eval_single(output_file, args.annotation_file, total)
 
+        # path in H100 server
+        secrets_path = os.path.expanduser("/home/data/vgilab/jeongeun/.secrets.json")
+        api_key = json.load(open(secrets_path))['api_key']
+        if not api_key:
+            raise ValueError("API key not found in secrets.json")
+            
+        batch_size = 8 
+        overall_accuracy = deepseek_chat_final(api_key, ans_gt_file, batch_size=batch_size)
+        print(f"Overall Accuracy: {overall_accuracy*10:.2f}")
+        if args.output_dir is not None:
+            output_file = os.path.join(args.output_dir, 'Result_api.text')
+            with open(output_file, 'w') as f:
+                f.write('Accuracy: {:.2f}%\n'.format(overall_accuracy*10))
+
         # api_key = "sk-GdmqmU6fFWv5N0HlvYluLFzIbXIPNg3MHzPGeeV247092807Ba2e4487B9D5796cA3Be7dD4"
 
         # batch_size = 8 

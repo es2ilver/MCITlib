@@ -238,6 +238,7 @@ if __name__ == "__main__":
         merge_captions(output_file, args.annotation_file, ans_gt_file)
         eval_single(output_file, args.annotation_file, total)
 
+        # path in H100 server
         secrets_path = os.path.expanduser("/home/data/vgilab/jeongeun/.secrets.json")
         api_key = json.load(open(secrets_path))['api_key']
 
