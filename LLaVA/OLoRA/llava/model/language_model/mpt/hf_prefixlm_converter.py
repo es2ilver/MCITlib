@@ -270,7 +270,7 @@ def _convert_bloom_causal_lm_to_prefix_lm(model: BloomForCausalLM) -> BloomForCa
                     def custom_forward(*inputs):
                         return module(*inputs, use_cache=use_cache, output_attentions=output_attentions)
                     return custom_forward
-                outputs = torch.utils.checkpoint.checkpoint(create_custom_forward(block), hidden_states, alibi, causal_mask, head_mask[i])
+                outputs = torch.utils.checkpoint.checkpoint(create_custom_forward(block), hidden_states, alibi, causal_mask, head_mask[i], use_reentrant=False)
             else:
                 outputs = block(hidden_states, layer_past=layer_past, attention_mask=causal_mask, head_mask=head_mask[i], use_cache=use_cache, output_attentions=output_attentions, alibi=alibi)
             hidden_states = outputs[0]

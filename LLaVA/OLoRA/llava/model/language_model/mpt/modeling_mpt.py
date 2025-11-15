@@ -205,7 +205,7 @@ class MPTModel(MPTPreTrainedModel):
                 all_hidden_states = all_hidden_states + (x,)
             past_key_value = past_key_values[b_idx] if past_key_values is not None else None
             if self.gradient_checkpointing and self.training:
-                (x, attn_weights, past_key_value) = torch.utils.checkpoint.checkpoint(block, x, past_key_value, attn_bias, attention_mask, self.is_causal)
+                (x, attn_weights, past_key_value) = torch.utils.checkpoint.checkpoint(block, x, past_key_value, attn_bias, attention_mask, self.is_causal, use_reentrant=False)
             else:
                 (x, attn_weights, past_key_value) = block(x, past_key_value=past_key_value, attn_bias=attn_bias, attention_mask=attention_mask, is_causal=self.is_causal)
             if past_key_values is not None:
