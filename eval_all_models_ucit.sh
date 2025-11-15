@@ -32,7 +32,7 @@ export CUDA_VISIBLE_DEVICES=$GPU_LIST
 
 
 # 모델 리스트
-MODELS=("OLoRA" "HiDe" "SEFE" "DISCO")
+MODELS=("HiDe" "SEFE" "DISCO") # "OLoRA"
 
 # Task 리스트
 TASKS=(1 2 3 4 5 6)

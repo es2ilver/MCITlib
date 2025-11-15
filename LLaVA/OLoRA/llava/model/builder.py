@@ -19,6 +19,9 @@ import shutil
 
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, BitsAndBytesConfig
 import torch
+
+# torch.load의 FutureWarning 무시 (신뢰할 수 있는 모델 가중치 파일이므로 안전)
+warnings.filterwarnings('ignore', category=FutureWarning, message='.*torch.load.*weights_only.*')
 from llava.model import *
 from llava.constants import DEFAULT_IMAGE_PATCH_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN
 
@@ -77,10 +80,15 @@ def load_pretrained_model(model_path, model_base, model_name, load_8bit=False, l
             model.set_cur_task(cur_task)
 
             from CoIN.peft import PeftModel, TaskType, get_peft_model, CoINMOELoraConfig, WEIGHTS_NAME, set_peft_model_state_dict
+            from CoIN.peft.tuners.clitmoelora import CoINMOELoraLinear # 수정됨
             print('Loading LoRA weights...')
             model = PeftModel.from_pretrained(model, model_path)
             print('Merging LoRA weights...')
             model = model.merge_and_unload()
+            # Update cur_task in all CoINMOELoraLinear layers after merge # 수정됨
+            for name, module in model.named_modules():
+                if isinstance(module, CoINMOELoraLinear):
+                    module.cur_task = cur_task
             print('Model is loaded...')
         elif model_base is not None:
             # this may be mm projector only

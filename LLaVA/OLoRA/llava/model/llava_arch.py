@@ -14,9 +14,13 @@
 
 
 from abc import ABC, abstractmethod
+import warnings
 
 import torch
 import torch.nn as nn
+
+# torch.load의 FutureWarning 무시 (신뢰할 수 있는 모델 가중치 파일이므로 안전)
+warnings.filterwarnings('ignore', category=FutureWarning, message='.*torch.load.*weights_only.*')
 
 from .multimodal_encoder.builder import build_vision_tower
 from .multimodal_projector.builder import build_vision_projector

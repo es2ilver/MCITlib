@@ -32,7 +32,9 @@ def eval_model(args):
     disable_torch_init()
     model_path = os.path.expanduser(args.model_path)
     model_name = get_model_name_from_path(model_path)
-    tokenizer, model, image_processor, context_len = load_pretrained_model(model_path, args.model_base, model_name)
+    # cur_task가 제공되지 않으면 기본값 0 사용
+    cur_task = getattr(args, 'cur_task', 0)
+    tokenizer, model, image_processor, context_len = load_pretrained_model(model_path, args.model_base, model_name, cur_task=cur_task)
 
     with open(os.path.expanduser(args.question_file), "r") as f:
         questions = json.load(f)
@@ -113,6 +115,7 @@ if __name__ == "__main__":
     parser.add_argument("--temperature", type=float, default=0.2)
     parser.add_argument("--top_p", type=float, default=None)
     parser.add_argument("--num_beams", type=int, default=1)
+    parser.add_argument("--cur-task", type=int, default=0, help="Current task number for OLoRA model")
     args = parser.parse_args()
 
     eval_model(args)
