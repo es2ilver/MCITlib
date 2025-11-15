@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TASK_ID=$1
-HARD_PATH=/home/data/vgilab/jeongeun/MCITlib
+HARD_PATH="/home/data/vgilab/jeongeun/MCITlib"
 
 if [ "$TASK_ID" == "1" ]; then
     # pip install -e .

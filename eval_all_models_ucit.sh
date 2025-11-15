@@ -3,6 +3,9 @@
 # 통합 평가 스크립트: O-LoRA, HiDe-LLaVA, SEFE, DISCO 모델에 대한 UCIT benchmark 평가
 # Task 1~6 평가를 각 모델에 대해 진행
 
+# 오류 발생 시 즉시 스크립트 종료
+set -e
+
 HARD_PATH="/home/data/vgilab/jeongeun/MCITlib"
 GPU_LIST="4,5,6,7"
 
