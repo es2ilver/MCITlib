@@ -3,7 +3,7 @@
 # 통합 평가 스크립트: O-LoRA, HiDe-LLaVA, SEFE, DISCO 모델에 대한 UCIT benchmark 평가
 # Task 1~6 평가를 각 모델에 대해 진행
 
-HARD_PATH="/data/vgilab/jeongeun/MCITlib"
+HARD_PATH="/home/data/vgilab/jeongeun/MCITlib"
 GPU_LIST="4,5,6,7"
 
 # 로그 파일 경로 설정
@@ -26,6 +26,7 @@ export CUDA_VISIBLE_DEVICES=$GPU_LIST
     echo "로그 파일: $LOG_FILE"
     echo "=========================================="
 } | tee -a "$LOG_FILE"
+
 
 # 모델 리스트
 MODELS=("OLoRA" "HiDe" "SEFE" "DISCO")
