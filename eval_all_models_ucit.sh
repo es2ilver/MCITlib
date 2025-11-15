@@ -2,6 +2,11 @@
 
 # 통합 평가 스크립트: O-LoRA, HiDe-LLaVA, SEFE, DISCO 모델에 대한 UCIT benchmark 평가
 # Task 1~6 평가를 각 모델에 대해 진행
+#
+# 사용법:
+#   bash eval_all_models_ucit.sh                    # 기본 모델 리스트 사용
+#   bash eval_all_models_ucit.sh SEFE DISCO         # 지정한 모델만 평가
+#   bash eval_all_models_ucit.sh OLoRA HiDe         # 다른 모델 조합
 
 # 오류 발생 시 즉시 스크립트 종료
 set -e
@@ -31,8 +36,16 @@ export CUDA_VISIBLE_DEVICES=$GPU_LIST
 } | tee -a "$LOG_FILE"
 
 
-# 모델 리스트
-MODELS=("HiDe" "SEFE" "DISCO") # "OLoRA"
+# 모델 리스트: 인자가 있으면 인자 사용, 없으면 기본값 사용
+if [ $# -eq 0 ]; then
+    # 기본 모델 리스트
+    MODELS=("SEFE" "DISCO") # "OLoRA" # "HiDe"
+    echo "기본 모델 리스트 사용: ${MODELS[*]}" | tee -a "$LOG_FILE"
+else
+    # 명령줄 인자를 모델 리스트로 사용
+    MODELS=("$@")
+    echo "지정된 모델 리스트: ${MODELS[*]}" | tee -a "$LOG_FILE"
+fi
 
 # Task 리스트
 TASKS=(1 2 3 4 5 6)
