@@ -25,6 +25,7 @@ from typing import Dict, Optional, Sequence, List
 import torch
 import sys
 import transformers
+from functools import wraps
 
 from llava.constants import IGNORE_INDEX, IMAGE_TOKEN_INDEX, DEFAULT_IMAGE_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN
 from peft.utils import WEIGHTS_NAME, set_peft_model_state_dict
@@ -864,6 +865,15 @@ def train():
             def make_inputs_require_grad(module, input, output):
                 output.requires_grad_(True)
             model.get_input_embeddings().register_forward_hook(make_inputs_require_grad)
+        
+        # Monkey patch torch.utils.checkpoint.checkpoint to use use_reentrant=False by default
+        # This fixes the "Gradient computed twice for this partition" error in distributed training
+        original_checkpoint = torch.utils.checkpoint.checkpoint
+        def checkpoint_with_reentrant_false(*args, **kwargs):
+            if 'use_reentrant' not in kwargs:
+                kwargs['use_reentrant'] = False
+            return original_checkpoint(*args, **kwargs)
+        torch.utils.checkpoint.checkpoint = checkpoint_with_reentrant_false
 
     if training_args.lora_enable:
         from peft import LoraConfig, get_peft_model
