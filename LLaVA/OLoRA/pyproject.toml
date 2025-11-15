@@ -19,7 +19,7 @@ dependencies = [
     "torch==2.4.0",                     # CUDA 12.1 build (H100 native kernels)
     "torchvision==0.19.0",
     "transformers==4.31.0",
-    "tokenizers>=0.15,<0.20",
+    "tokenizers>=0.11.1,<0.14",
     "sentencepiece==0.2.0",
     "accelerate==0.30.0",
     "peft==0.10.0",
