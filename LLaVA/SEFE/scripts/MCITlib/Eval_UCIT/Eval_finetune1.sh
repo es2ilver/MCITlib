@@ -69,7 +69,5 @@ else
     # pip install -e .
     # pip install transformers==4.37.2
     bash scripts/MCITlib/Eval_UCIT/eval_clevr.sh $HARD_PATH/configs/modal_configs/llava.json $HARD_PATH/configs/data_configs/UCIT/CLEVR-Math.json $HARD_PATH/configs/train_configs/SEFE/LLaVA/UCIT/eval/task6.json
-    pip install -e .
-    pip install transformers==4.37.2
     bash scripts/MCITlib/Eval_UCIT/eval_flickr30k.sh $HARD_PATH/configs/modal_configs/llava.json $HARD_PATH/configs/data_configs/UCIT/Flickr30k.json $HARD_PATH/configs/train_configs/SEFE/LLaVA/UCIT/eval/task6.json
 fi
